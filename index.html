@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>HT Makina Taşlama | Hassas Taşlama Hizmetleri Ankara</title>
+<meta name="description" content="Ankara İvedik OSB'de silindirik, delik, yüzey, puntalı, puntasız taşlama ve özel parça üretimi hizmetleri. Yüksek hassasiyet, kısa teslimat."/>
+<meta name="keywords" content="taşlama, silindirik taşlama, delik taşlama, yüzey taşlama, puntalı taşlama, puntasız taşlama, profil taşlama, hassas imalat, ankara, ivedik osb"/>
+<meta name="robots" content="index, follow"/>
+<meta property="og:title" content="HT Makina Taşlama"/>
+<meta property="og:description" content="Ankara'da hassas taşlama hizmetleri"/>
+<meta property="og:type" content="website"/>
+<meta name="theme-color" content="#111111"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="canonical" href="https://htmakinatasalama.com/"/>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LocalBusiness",
+  "name":"HT Makina Taşlama",
+  "description":"Hassas taşlama hizmetleri - silindirik, delik, yüzey taşlama",
+  "address":{
+    "@type":"PostalAddress",
+    "streetAddress":"İvedikosb Mah. 1459 Cad. No:7",
+    "addressLocality":"Yenimahalle",
+    "addressRegion":"Ankara",
+    "postalCode":"06374",
+    "addressCountry":"TR"
+  },
+  "telephone":"+905373491402",
+  "openingHours":["Mo-Sa 08:30-18:30"],
+  "taxID":"8600137165"
+}
+</script>
+<!-- Google Analytics placeholder -->
+<script id="ga-script">/* GA_TRACKING_ID_PLACEHOLDER */</script>
+<style>
+:root{
+  --navy:#111111;
+  --navy2:#1a1a1a;
+  --navy3:#222222;
+  --blue:#e02020;
+  --blue-light:#f03030;
+  --gold:#e02020;
+  --white:#ffffff;
+  --gray50:#f8fafc;
+  --gray100:#f1f5f9;
+  --gray200:#e2e8f0;
+  --gray400:#94a3b8;
+  --gray600:#475569;
+  --gray800:#1e293b;
+  --red:#e02020;
+  --green:#16a34a;
+  --font:'Inter',system-ui,sans-serif;
+  --radius:8px;
+  --radius-lg:16px;
+  --shadow:0 4px 24px rgba(0,0,0,.12);
+  --shadow-lg:0 8px 40px rgba(0,0,0,.18);
+  --transition:.2s ease;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);color:var(--gray800);background:var(--white);overflow-x:hidden}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+
+/* INTRO ANIMATION */
+#intro{position:fixed;inset:0;background:#111111;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+#intro.fade-out{animation:introFadeOut .7s ease forwards}
+@keyframes introFadeOut{to{opacity:0;pointer-events:none}}
+
+/* sparks */
+.intro-sparks{position:absolute;inset:0;pointer-events:none}
+.spark{position:absolute;width:2px;height:2px;background:var(--red);border-radius:50%;opacity:0}
+
+/* grinding machine SVG container */
+.intro-machine{position:relative;width:320px;height:200px;margin-bottom:2rem}
+
+/* wheel spin */
+#intro-wheel{transform-origin:50% 50%;animation:none}
+#intro-wheel.spinning{animation:wheelSpin 0.18s linear infinite}
+@keyframes wheelSpin{to{transform:rotate(360deg)}}
+
+/* sparks burst from grind point */
+.grind-spark{position:absolute;width:3px;height:3px;border-radius:50%;background:#ff3333;opacity:0;bottom:62px;left:220px}
+.grind-spark.active{animation:sparkBurst var(--d,.3s) ease-out forwards}
+@keyframes sparkBurst{
+  0%{opacity:1;transform:translate(0,0) scale(1)}
+  100%{opacity:0;transform:translate(var(--tx,10px),var(--ty,-20px)) scale(0)}
+}
+
+/* workpiece slide in */
+#intro-workpiece{transform:translateX(160px);opacity:0;transition:transform 0.8s cubic-bezier(.22,1,.36,1),opacity 0.4s ease}
+#intro-workpiece.in{transform:translateX(0);opacity:1}
+
+/* grind line on workpiece */
+#grind-line{stroke-dasharray:60;stroke-dashoffset:60;transition:stroke-dashoffset 1.2s ease}
+#grind-line.cut{stroke-dashoffset:0}
+
+/* title reveal */
+.intro-title{text-align:center;overflow:hidden}
+.intro-title-line{display:block;opacity:0;transform:translateY(30px);transition:opacity .5s ease,transform .5s ease}
+.intro-title-line.show{opacity:1;transform:translateY(0)}
+.intro-title-ht{font-size:clamp(2.5rem,8vw,4.5rem);font-weight:900;color:var(--white);letter-spacing:-1px;line-height:1}
+.intro-title-sub{font-size:clamp(1rem,3vw,1.5rem);font-weight:300;color:var(--red);letter-spacing:6px;text-transform:uppercase;margin-top:.5rem}
+
+/* progress bar */
+.intro-bar{width:200px;height:2px;background:rgba(255,255,255,.1);border-radius:2px;margin-top:2rem;overflow:hidden}
+.intro-bar-fill{height:100%;background:var(--red);width:0%;transition:width .1s linear;border-radius:2px}
+
+/* skip */
+.intro-skip{position:absolute;bottom:2rem;right:2rem;background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.4);padding:.4rem 1rem;border-radius:100px;font-size:.75rem;cursor:pointer;transition:.2s;font-family:var(--font)}
+.intro-skip:hover{border-color:rgba(255,255,255,.5);color:rgba(255,255,255,.7)}
+
+/* COOKIE BANNER */
+#cookie-banner{position:fixed;bottom:0;left:0;right:0;background:#111111;color:var(--white);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;z-index:9999;font-size:.85rem}
+#cookie-banner a{color:var(--red);text-decoration:underline}
+#cookie-banner button{background:var(--red);color:var(--white);border:none;padding:.5rem 1.25rem;border-radius:var(--radius);font-weight:600;cursor:pointer;white-space:nowrap}
+#cookie-banner.hidden{display:none}
+
+/* NAVBAR */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(17,17,17,.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.08)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:70px}
+.nav-logo{display:flex;align-items:center;gap:.75rem}
+.nav-logo-img{width:44px;height:44px;background:#1a1a1a;border:2px dashed var(--red);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--red);text-align:center;line-height:1.2;padding:4px}
+.nav-logo-text{display:flex;flex-direction:column}
+.nav-logo-text span:first-child{font-size:1rem;font-weight:700;color:var(--white);letter-spacing:.5px}
+.nav-logo-text span:last-child{font-size:.65rem;color:var(--red);letter-spacing:1.5px;text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:.25rem}
+.nav-links a{color:rgba(255,255,255,.8);font-size:.875rem;padding:.5rem .75rem;border-radius:var(--radius);transition:var(--transition)}
+.nav-links a:hover{color:var(--white);background:rgba(255,255,255,.08)}
+.nav-cta{background:var(--red);color:var(--white)!important;padding:.5rem 1.25rem!important;font-weight:600}
+.nav-cta:hover{background:#f03030!important}
+.lang-btn{background:none;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.8);padding:.35rem .75rem;border-radius:var(--radius);font-size:.8rem;cursor:pointer;transition:var(--transition)}
+.lang-btn:hover{border-color:var(--red);color:var(--red)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:.5rem}
+.nav-hamburger span{width:24px;height:2px;background:var(--white);border-radius:2px;transition:var(--transition)}
+.mobile-menu{display:none;position:fixed;top:70px;left:0;right:0;background:#111111;padding:1rem 1.5rem 2rem;flex-direction:column;gap:.5rem;z-index:999;border-bottom:1px solid rgba(255,255,255,.1)}
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:rgba(255,255,255,.85);padding:.75rem 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:1rem}
+.mobile-menu a:last-child{border:none}
+
+/* HERO */
+.hero{min-height:100vh;background:linear-gradient(135deg,#0a0a0a 0%,#1a0000 50%,#111111 100%);display:flex;align-items:center;padding:100px 1.5rem 4rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-gear{position:absolute;right:-80px;top:50%;transform:translateY(-50%);width:600px;height:600px;opacity:.04;animation:spin 60s linear infinite}
+@keyframes spin{to{transform:translateY(-50%) rotate(360deg)}}
+.hero-content{max-width:1200px;margin:0 auto;width:100%;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(224,32,32,.15);border:1px solid rgba(224,32,32,.3);color:var(--red);padding:.4rem 1rem;border-radius:100px;font-size:.8rem;font-weight:600;letter-spacing:.5px;margin-bottom:1.5rem}
+.hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;color:var(--white);line-height:1.15;margin-bottom:1.5rem;max-width:700px}
+.hero h1 span{color:var(--red)}
+.hero-sub{font-size:1.1rem;color:rgba(255,255,255,.7);max-width:580px;line-height:1.7;margin-bottom:2.5rem}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3rem}
+.btn-primary{background:var(--red);color:var(--white);padding:.875rem 2rem;border-radius:var(--radius);font-weight:700;font-size:1rem;border:none;cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;gap:.5rem}
+.btn-primary:hover{background:#f03030;transform:translateY(-1px)}
+.btn-secondary{background:transparent;color:var(--white);padding:.875rem 2rem;border-radius:var(--radius);font-weight:600;font-size:1rem;border:2px solid rgba(255,255,255,.3);cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;gap:.5rem}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+.hero-stats{display:flex;gap:2.5rem;flex-wrap:wrap}
+.hero-stat{text-align:left}
+.hero-stat-num{font-size:2rem;font-weight:800;color:var(--red)}
+.hero-stat-label{font-size:.8rem;color:rgba(255,255,255,.5);margin-top:.1rem;text-transform:uppercase;letter-spacing:.5px}
+
+/* SECTIONS */
+section{padding:6rem 1.5rem}
+.container{max-width:1200px;margin:0 auto}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:.75rem}
+.section-title{font-size:clamp(1.75rem,4vw,2.5rem);font-weight:800;color:#111111;margin-bottom:1rem;line-height:1.2}
+.section-sub{font-size:1rem;color:var(--gray600);max-width:560px;line-height:1.7;margin-bottom:3rem}
+
+/* SERVICES */
+.services{background:var(--gray50)}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+.service-card{background:var(--white);border:1px solid var(--gray200);border-radius:var(--radius-lg);padding:2rem;transition:var(--transition);cursor:default;position:relative;overflow:hidden}
+.service-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--red);transform:scaleY(0);transition:var(--transition);transform-origin:bottom}
+.service-card:hover{border-color:var(--red);box-shadow:var(--shadow);transform:translateY(-2px)}
+.service-card:hover::before{transform:scaleY(1)}
+.service-icon{width:48px;height:48px;background:rgba(224,32,32,.1);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem}
+.service-icon svg{width:24px;height:24px;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.service-card h3{font-size:1.125rem;font-weight:700;color:var(--navy);margin-bottom:.75rem}
+.service-card p{font-size:.9rem;color:var(--gray600);line-height:1.65}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.about-visual{background:var(--gray100);border-radius:var(--radius-lg);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;border:2px dashed var(--gray200);position:relative;overflow:hidden}
+.about-visual-placeholder{text-align:center;color:var(--gray400)}
+.about-visual-placeholder svg{width:48px;height:48px;margin:0 auto 1rem}
+.about-visual-placeholder p{font-size:.85rem}
+.about-info{display:flex;flex-direction:column;gap:1.5rem}
+.about-info p{color:var(--gray600);line-height:1.75;font-size:1rem}
+.about-details{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.5rem}
+.about-detail{background:var(--gray50);border:1px solid var(--gray200);border-radius:var(--radius);padding:1rem}
+.about-detail-label{font-size:.75rem;color:var(--gray400);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.25rem}
+.about-detail-value{font-size:.9rem;font-weight:600;color:#111111}
+
+/* GALLERY */
+.gallery{background:var(--gray50)}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem}
+.gallery-item{aspect-ratio:4/3;border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;position:relative;background:var(--gray200)}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.gallery-item:hover img{transform:scale(1.05)}
+.gallery-item-overlay{position:absolute;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;padding:1rem;opacity:0;transition:var(--transition)}
+.gallery-item:hover .gallery-item-overlay{opacity:1}
+.gallery-item-title{color:var(--white);font-size:.875rem;font-weight:600}
+.gallery-empty{text-align:center;padding:3rem;color:var(--gray400);grid-column:1/-1}
+
+/* LIGHTBOX */
+#lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9998;display:none;align-items:center;justify-content:center;padding:1rem}
+#lightbox.open{display:flex}
+.lightbox-img{max-width:90vw;max-height:85vh;object-fit:contain;border-radius:var(--radius)}
+.lightbox-close{position:absolute;top:1.5rem;right:1.5rem;background:rgba(255,255,255,.15);border:none;color:var(--white);width:44px;height:44px;border-radius:50%;font-size:1.5rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.lightbox-caption{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:var(--white);font-size:.9rem;text-align:center}
+
+/* QUOTE FORM */
+.quote{background:#111111;color:var(--white)}
+.quote .section-label{color:var(--gold)}
+.quote .section-title{color:var(--white)}
+.quote .section-sub{color:rgba(255,255,255,.65)}
+.quote-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:4rem;align-items:start}
+.quote-info{display:flex;flex-direction:column;gap:1.5rem}
+.quote-info-item{display:flex;gap:1rem;align-items:flex-start}
+.quote-info-icon{width:40px;height:40px;min-width:40px;background:rgba(224,32,32,.15);border-radius:var(--radius);display:flex;align-items:center;justify-content:center}
+.quote-info-icon svg{width:20px;height:20px;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.quote-info-text h4{font-size:.9rem;font-weight:600;color:var(--white);margin-bottom:.25rem}
+.quote-info-text p{font-size:.85rem;color:rgba(255,255,255,.55);line-height:1.5}
+.form-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius-lg);padding:2rem}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{display:flex;flex-direction:column;gap:.4rem}
+.form-group.full{grid-column:1/-1}
+.form-label{font-size:.8rem;color:rgba(255,255,255,.6);font-weight:500}
+.form-label .req{color:var(--red)}
+.form-input,.form-select,.form-textarea{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:var(--radius);color:var(--white);padding:.7rem .9rem;font-size:.9rem;font-family:var(--font);transition:var(--transition);width:100%}
+.form-input::placeholder,.form-textarea::placeholder{color:rgba(255,255,255,.3)}
+.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--red);background:rgba(255,255,255,.1)}
+.form-select{color:rgba(255,255,255,.7)}
+.form-select option{background:#111111;color:var(--white)}
+.form-textarea{resize:vertical;min-height:100px}
+.form-row{display:flex;align-items:center;gap:.5rem}
+.form-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--red)}
+.form-row label{font-size:.85rem;color:rgba(255,255,255,.65)}
+.form-submit{background:var(--red);color:var(--white);border:none;padding:.875rem 2.5rem;border-radius:var(--radius);font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:.5rem;transition:var(--transition);font-family:var(--font)}
+.form-submit:hover{background:var(--blue-light);background:#f03030}
+.form-submit:disabled{opacity:.5;cursor:not-allowed}
+.form-msg{margin-top:1rem;padding:.75rem 1rem;border-radius:var(--radius);font-size:.875rem;display:none}
+.form-msg.success{background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.4);color:#4ade80;display:block}
+.form-msg.error{background:rgba(220,38,38,.2);border:1px solid rgba(220,38,38,.4);color:#f87171;display:block}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:4rem;align-items:start}
+.contact-details{display:flex;flex-direction:column;gap:1.5rem}
+.contact-item{display:flex;gap:1rem;align-items:flex-start}
+.contact-icon{width:44px;height:44px;min-width:44px;background:rgba(224,32,32,.1);border-radius:var(--radius);display:flex;align-items:center;justify-content:center}
+.contact-icon svg{width:20px;height:20px;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.contact-item h4{font-size:.85rem;color:var(--gray400);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.3rem;font-weight:600}
+.contact-item p,.contact-item a{font-size:.95rem;color:var(--gray800);line-height:1.5}
+.contact-item a:hover{color:var(--red)}
+.map-container{border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--gray200);aspect-ratio:16/10}
+.map-container iframe{width:100%;height:100%;border:none}
+
+/* LEGAL PAGES */
+.legal-page{display:none;position:fixed;inset:0;background:var(--white);z-index:9997;overflow-y:auto;padding:2rem}
+.legal-page.open{display:block}
+.legal-close{position:fixed;top:1rem;right:1rem;background:#111111;color:var(--white);border:none;padding:.5rem 1.25rem;border-radius:var(--radius);cursor:pointer;font-size:.875rem;font-weight:600;z-index:9998}
+.legal-content{max-width:800px;margin:0 auto;padding-top:3rem}
+.legal-content h1{font-size:1.75rem;font-weight:800;color:#111111;margin-bottom:2rem}
+.legal-content h2{font-size:1.1rem;font-weight:700;color:#111111;margin:2rem 0 .75rem}
+.legal-content p,.legal-content li{font-size:.9rem;color:var(--gray600);line-height:1.75;margin-bottom:.5rem}
+.legal-content ul{padding-left:1.5rem;margin-bottom:1rem}
+.legal-content table{width:100%;border-collapse:collapse;font-size:.85rem;margin-bottom:1rem}
+.legal-content table th,.legal-content table td{border:1px solid var(--gray200);padding:.5rem .75rem;text-align:left}
+.legal-content table th{background:var(--gray50);font-weight:600}
+
+/* FOOTER */
+footer{background:#111111;color:rgba(255,255,255,.6);padding:3rem 1.5rem 1.5rem}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.footer-brand p{font-size:.85rem;line-height:1.7;margin-top:.75rem;max-width:280px}
+.footer-col h4{font-size:.8rem;font-weight:700;color:var(--white);text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.footer-col ul li a{font-size:.85rem;transition:var(--transition)}
+.footer-col ul li a:hover{color:var(--red)}
+.footer-social{display:flex;gap:.75rem;margin-top:1rem}
+.social-btn{width:36px;height:36px;background:rgba(255,255,255,.08);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;transition:var(--transition)}
+.social-btn:hover{background:var(--red)}
+.social-btn svg{width:16px;height:16px;stroke:rgba(255,255,255,.7);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.social-btn:hover svg{stroke:var(--white)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;font-size:.8rem}
+.footer-legal{display:flex;gap:1.5rem;flex-wrap:wrap}
+.footer-legal button{background:none;border:none;color:rgba(255,255,255,.5);font-size:.8rem;cursor:pointer;transition:var(--transition)}
+.footer-legal button:hover{color:var(--red)}
+
+/* WHATSAPP BTN */
+.wa-btn{position:fixed;bottom:2rem;right:2rem;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:900;box-shadow:0 4px 20px rgba(37,211,102,.4);transition:var(--transition)}
+.wa-btn:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(37,211,102,.5)}
+.wa-btn svg{width:28px;height:28px;fill:var(--white)}
+
+/* LOADER */
+.loading-skeleton{background:linear-gradient(90deg,var(--gray100) 25%,var(--gray200) 50%,var(--gray100) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:var(--radius)}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .about-grid,.quote-grid,.contact-grid{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr 1fr}
+  .hero-stats{gap:1.5rem}
+}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .nav-hamburger{display:flex}
+  section{padding:4rem 1.25rem}
+  .form-grid{grid-template-columns:1fr}
+  .about-details{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .hero-actions{flex-direction:column}
+  .btn-primary,.btn-secondary{width:100%;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- INTRO ANIMATION -->
+<div id="intro">
+  <!-- Background sparks canvas -->
+  <div class="intro-sparks" id="intro-sparks"></div>
+
+  <!-- Grinding Machine SVG -->
+  <div class="intro-machine">
+    <svg viewBox="0 0 320 200" width="320" height="200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Machine body -->
+      <rect x="20" y="30" width="200" height="120" rx="6" fill="#1a3a6b" stroke="#2563eb" stroke-width="1"/>
+      <!-- Machine top panel -->
+      <rect x="20" y="30" width="200" height="28" rx="6" fill="#0d2244" stroke="#2563eb" stroke-width="1"/>
+      <rect x="20" y="52" width="200" height="6" fill="#0d2244"/>
+      <!-- Panel lights -->
+      <circle cx="42" cy="44" r="5" fill="#16a34a" opacity="0"/>
+      <circle cx="42" cy="44" r="5" fill="#16a34a" id="light-green" opacity="0"/>
+      <circle cx="60" cy="44" r="5" fill="#ca8a04" id="light-amber" opacity="0"/>
+      <circle cx="78" cy="44" r="5" fill="#dc2626" id="light-red" opacity="0"/>
+      <!-- Screen -->
+      <rect x="100" y="36" width="80" height="16" rx="2" fill="#0a1628" stroke="#2563eb" stroke-width=".5"/>
+      <text x="140" y="48" text-anchor="middle" fill="#c9a84c" font-size="7" font-family="monospace" id="screen-text">HAZIR</text>
+      <!-- Machine arm/spindle -->
+      <rect x="190" y="58" width="60" height="14" rx="3" fill="#0f3460" stroke="#2563eb" stroke-width=".8"/>
+      <rect x="230" y="62" width="30" height="6" rx="2" fill="#1a3a6b"/>
+      <!-- Grinding wheel group - will be rotated -->
+      <g id="intro-wheel">
+        <circle cx="260" cy="115" r="32" fill="#0d2244" stroke="#c9a84c" stroke-width="2"/>
+        <circle cx="260" cy="115" r="26" fill="none" stroke="#1a3a6b" stroke-width="1" stroke-dasharray="4 3"/>
+        <circle cx="260" cy="115" r="18" fill="#0a1628" stroke="#2563eb" stroke-width="1"/>
+        <!-- Wheel spokes -->
+        <line x1="260" y1="83" x2="260" y2="97" stroke="#c9a84c" stroke-width="1.5"/>
+        <line x1="260" y1="133" x2="260" y2="147" stroke="#c9a84c" stroke-width="1.5"/>
+        <line x1="228" y1="115" x2="242" y2="115" stroke="#c9a84c" stroke-width="1.5"/>
+        <line x1="278" y1="115" x2="292" y2="115" stroke="#c9a84c" stroke-width="1.5"/>
+        <line x1="237" y1="92" x2="247" y2="102" stroke="#c9a84c" stroke-width="1.5"/>
+        <line x1="273" y1="128" x2="283" y2="138" stroke="#c9a84c" stroke-width="1.5"/>
+        <line x1="283" y1="92" x2="273" y2="102" stroke="#c9a84c" stroke-width="1.5"/>
+        <line x1="247" y1="128" x2="237" y2="138" stroke="#c9a84c" stroke-width="1.5"/>
+        <!-- Center bolt -->
+        <circle cx="260" cy="115" r="6" fill="#c9a84c"/>
+        <circle cx="260" cy="115" r="3" fill="#0a1628"/>
+      </g>
+      <!-- Spindle shaft -->
+      <rect x="218" y="111" width="10" height="8" rx="2" fill="#2563eb"/>
+      <!-- Workpiece (part being ground) -->
+      <g id="intro-workpiece">
+        <rect x="60" y="100" width="150" height="34" rx="4" fill="#334155" stroke="#475569" stroke-width="1"/>
+        <!-- Grind line that appears as wheel works -->
+        <line id="grind-line" x1="60" y1="108" x2="220" y2="108" stroke="#c9a84c" stroke-width="1.5" opacity=".7"/>
+        <!-- Surface texture lines -->
+        <line x1="80" y1="104" x2="80" y2="130" stroke="#475569" stroke-width=".5" opacity=".5"/>
+        <line x1="110" y1="104" x2="110" y2="130" stroke="#475569" stroke-width=".5" opacity=".5"/>
+        <line x1="140" y1="104" x2="140" y2="130" stroke="#475569" stroke-width=".5" opacity=".5"/>
+        <line x1="170" y1="104" x2="170" y2="130" stroke="#475569" stroke-width=".5" opacity=".5"/>
+        <line x1="200" y1="104" x2="200" y2="130" stroke="#475569" stroke-width=".5" opacity=".5"/>
+      </g>
+      <!-- Table/base -->
+      <rect x="40" y="148" width="240" height="10" rx="3" fill="#0f3460" stroke="#2563eb" stroke-width=".8"/>
+      <rect x="60" y="155" width="200" height="6" rx="2" fill="#0a1628"/>
+      <!-- Coolant drops (animated) -->
+      <circle class="coolant-drop" cx="230" cy="105" r="2" fill="#3b82f6" opacity="0" id="drop1"/>
+      <circle class="coolant-drop" cx="240" cy="108" r="1.5" fill="#3b82f6" opacity="0" id="drop2"/>
+      <circle class="coolant-drop" cx="225" cy="110" r="1.5" fill="#3b82f6" opacity="0" id="drop3"/>
+    </svg>
+    <!-- DOM sparks for grind point -->
+    <div class="grind-spark" id="spark1"></div>
+    <div class="grind-spark" id="spark2"></div>
+    <div class="grind-spark" id="spark3"></div>
+    <div class="grind-spark" id="spark4"></div>
+    <div class="grind-spark" id="spark5"></div>
+  </div>
+
+  <!-- Title text -->
+  <div class="intro-title">
+    <span class="intro-title-line intro-title-ht" id="intro-line1">HT MAKİNA</span>
+    <span class="intro-title-line intro-title-sub" id="intro-line2">TAŞLAMA</span>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="intro-bar"><div class="intro-bar-fill" id="intro-bar"></div></div>
+
+  <!-- Skip button -->
+  <button class="intro-skip" onclick="skipIntro()">Geç →</button>
+</div>
+
+<!-- COOKIE BANNER -->
+<div id="cookie-banner">
+  <span id="cookie-text">Bu site, deneyiminizi geliştirmek için çerezler kullanmaktadır. Detaylar için <a href="#" onclick="openLegal('cookie');return false;" id="cookie-link">Çerez Politikamızı</a> inceleyebilirsiniz.</span>
+  <button onclick="acceptCookies()" id="cookie-btn">Kabul Et</button>
+</div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-img" id="nav-logo-placeholder" style="background:#111;border:none;padding:0;overflow:hidden">
+        <svg viewBox="0 0 44 44" width="44" height="44" xmlns="http://www.w3.org/2000/svg">
+          <rect width="44" height="44" fill="#111"/>
+          <!-- Gear body -->
+          <g transform="translate(10,8)">
+            <path d="M12 2a1.5 1.5 0 0 0-1.5 1.5v1.2A8.5 8.5 0 0 0 7.1 6.5L6 5.9A1.5 1.5 0 0 0 3.9 6l-2 2a1.5 1.5 0 0 0 .1 2.1l.9.7A8.5 8.5 0 0 0 2.5 13H1a1.5 1.5 0 0 0 0 3h1.5a8.5 8.5 0 0 0 .5 2.2l-.9.7A1.5 1.5 0 0 0 1.9 21l2 2A1.5 1.5 0 0 0 6 23.1l1.1-.6a8.5 8.5 0 0 0 3.4 1.8v1.2A1.5 1.5 0 0 0 12 27h2.8a1.5 1.5 0 0 0 1.5-1.5v-1.2a8.5 8.5 0 0 0 3.4-1.8l1.1.6a1.5 1.5 0 0 0 2.1-.1l2-2a1.5 1.5 0 0 0-.1-2.1l-.9-.7a8.5 8.5 0 0 0 .5-2.2H26a1.5 1.5 0 0 0 0-3h-1.5a8.5 8.5 0 0 0-.5-2.2l.9-.7a1.5 1.5 0 0 0 .1-2.1l-2-2A1.5 1.5 0 0 0 20.9 5.9L19.8 6.5A8.5 8.5 0 0 0 16.5 4.7V3.5A1.5 1.5 0 0 0 15 2H12z" fill="#e02020" transform="scale(0.72) translate(0,0)"/>
+            <circle cx="13.4" cy="14.5" r="4.5" fill="#111" transform="scale(0.72) translate(0,0)"/>
+            <!-- Grinding tool (diagonal line through gear) -->
+            <line x1="6" y1="4" x2="20" y2="24" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" transform="scale(0.72) translate(0,0)"/>
+            <circle cx="4.5" cy="3" r="2" fill="#ffffff" transform="scale(0.72) translate(0,0)"/>
+          </g>
+        </svg>
+      </div>
+      <div class="nav-logo-text">
+        <span>HT Makina</span>
+        <span id="nav-tagline" style="color:#e02020">TAŞLAMA</span>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="#services" data-tr="Hizmetler" data-en="Services">Hizmetler</a>
+      <a href="#about" data-tr="Hakkımızda" data-en="About">Hakkımızda</a>
+      <a href="#gallery" data-tr="Galeri" data-en="Gallery">Galeri</a>
+      <a href="#contact" data-tr="İletişim" data-en="Contact">İletişim</a>
+      <a href="#quote" class="nav-cta" data-tr="Teklif Al" data-en="Get Quote">Teklif Al</a>
+      <button class="lang-btn" onclick="toggleLang()" id="lang-toggle">EN</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:1rem">
+      <button class="lang-btn" onclick="toggleLang()" id="lang-toggle-mob">EN</button>
+      <div class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Menü">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#services" onclick="closeMobileMenu()" data-tr="Hizmetler" data-en="Services">Hizmetler</a>
+  <a href="#about" onclick="closeMobileMenu()" data-tr="Hakkımızda" data-en="About">Hakkımızda</a>
+  <a href="#gallery" onclick="closeMobileMenu()" data-tr="Galeri" data-en="Gallery">Galeri</a>
+  <a href="#contact" onclick="closeMobileMenu()" data-tr="İletişim" data-en="Contact">İletişim</a>
+  <a href="#quote" onclick="closeMobileMenu()" data-tr="Teklif Al" data-en="Get Quote" style="color:var(--gold);font-weight:700">Teklif Al</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span data-tr="Ankara İvedik OSB • Kuruluş 2026" data-en="Ankara Ivedik OSB • Est. 2026">Ankara İvedik OSB • Kuruluş 2026</span>
+    </div>
+    <h1 id="hero-title">Hassas Taşlamada <span>Güvenilir</span> Çözüm Ortağınız</h1>
+    <p class="hero-sub" id="hero-subtitle">Silindirik, delik ve yüzey taşlama alanlarında yüksek hassasiyet, kısa teslimat süreleri ve rekabetçi fiyatlarla hizmetinizdeyiz.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('quote').scrollIntoView({behavior:'smooth'})" id="hero-cta">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <span data-tr="Teklif Al" data-en="Get a Quote">Teklif Al</span>
+      </button>
+      <button class="btn-secondary" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg>
+        <span data-tr="Hizmetlerimiz" data-en="Our Services">Hizmetlerimiz</span>
+      </button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">μm</div>
+        <div class="hero-stat-label" data-tr="Hassasiyet" data-en="Precision">Hassasiyet</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">5+</div>
+        <div class="hero-stat-label" data-tr="Hizmet Türü" data-en="Service Types">Hizmet Türü</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">OSB</div>
+        <div class="hero-stat-label" data-tr="İvedik Ankara" data-en="Ivedik Ankara">İvedik Ankara</div>
+      </div>
+    </div>
+  </div>
+  <!-- Decorative gear SVG -->
+  <svg class="hero-gear" viewBox="0 0 200 200" fill="white" xmlns="http://www.w3.org/2000/svg">
+    <path d="M100 30a70 70 0 1 0 0 140A70 70 0 0 0 100 30zm0 20a50 50 0 1 1 0 100A50 50 0 0 1 100 50zm0 20a30 30 0 1 0 0 60 30 30 0 0 0 0-60z"/>
+    <rect x="93" y="10" width="14" height="30" rx="4"/>
+    <rect x="93" y="160" width="14" height="30" rx="4"/>
+    <rect x="10" y="93" width="30" height="14" rx="4"/>
+    <rect x="160" y="93" width="30" height="14" rx="4"/>
+  </svg>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="container">
+    <p class="section-label" data-tr="HİZMETLERİMİZ" data-en="OUR SERVICES">HİZMETLERİMİZ</p>
+    <h2 class="section-title" data-tr="Sunduğumuz Taşlama Hizmetleri" data-en="Our Grinding Services">Sunduğumuz Taşlama Hizmetleri</h2>
+    <p class="section-sub" data-tr="Modern makine parkımız ve deneyimli kadromuzla hassas taşlama gerektiren her türlü imalat ihtiyacınıza çözüm üretiyoruz." data-en="With our modern machinery and experienced team, we provide solutions for all precision grinding needs.">Modern makine parkımız ve deneyimli kadromuzla hassas taşlama gerektiren her türlü imalat ihtiyacınıza çözüm üretiyoruz.</p>
+    <div class="services-grid" id="services-grid">
+      <!-- Loaded dynamically -->
+      <div class="loading-skeleton" style="height:200px;border-radius:16px"></div>
+      <div class="loading-skeleton" style="height:200px;border-radius:16px"></div>
+      <div class="loading-skeleton" style="height:200px;border-radius:16px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual" id="about-visual">
+        <div class="about-visual-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <p data-tr="Firma fotoğrafı buraya eklenecek" data-en="Company photo will be added here">Firma fotoğrafı buraya eklenecek</p>
+        </div>
+      </div>
+      <div class="about-info">
+        <p class="section-label" data-tr="HAKKIMIZDA" data-en="ABOUT US">HAKKIMIZDA</p>
+        <h2 class="section-title" id="about-title" data-tr="HT Makina Taşlama" data-en="HT Makina Grinding">HT Makina Taşlama</h2>
+        <p id="about-text">HT Makina Taşlama, Ankara İvedik Organize Sanayi Bölgesi'nde faaliyet gösteren profesyonel bir talaşlı imalat firmasıdır. Silindirik taşlama, delik taşlama ve özel parça üretimi alanlarında müşterilerimize en yüksek kalite standartlarında hizmet sunmaktayız. Modern makine parkımız ve deneyimli kadromuzla, en zorlu tolerans ve yüzey pürüzlülüğü gereksinimlerini karşılamaktayız.</p>
+        <div class="about-details">
+          <div class="about-detail">
+            <div class="about-detail-label" data-tr="Vergi No" data-en="Tax No">Vergi No</div>
+            <div class="about-detail-value">8600137165</div>
+          </div>
+          <div class="about-detail">
+            <div class="about-detail-label" data-tr="Vergi Dairesi" data-en="Tax Office">Vergi Dairesi</div>
+            <div class="about-detail-value" data-tr="İvedik VD" data-en="Ivedik Tax Office">İvedik VD</div>
+          </div>
+          <div class="about-detail">
+            <div class="about-detail-label" data-tr="Kuruluş" data-en="Founded">Kuruluş</div>
+            <div class="about-detail-value">2026</div>
+          </div>
+          <div class="about-detail">
+            <div class="about-detail-label" data-tr="Konum" data-en="Location">Konum</div>
+            <div class="about-detail-value" data-tr="İvedik OSB, Ankara" data-en="Ivedik OSB, Ankara">İvedik OSB, Ankara</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="container">
+    <p class="section-label" data-tr="GALERİ" data-en="GALLERY">GALERİ</p>
+    <h2 class="section-title" data-tr="Yapılan İşlerden Örnekler" data-en="Work Samples">Yapılan İşlerden Örnekler</h2>
+    <p class="section-sub" data-tr="Gerçekleştirdiğimiz taşlama işlerine ait fotoğraflar." data-en="Photos from our completed grinding works.">Gerçekleştirdiğimiz taşlama işlerine ait fotoğraflar.</p>
+    <div class="gallery-grid" id="gallery-grid">
+      <div class="loading-skeleton" style="aspect-ratio:4/3;border-radius:16px"></div>
+      <div class="loading-skeleton" style="aspect-ratio:4/3;border-radius:16px"></div>
+      <div class="loading-skeleton" style="aspect-ratio:4/3;border-radius:16px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" class="lightbox-img" onclick="event.stopPropagation()"/>
+  <p class="lightbox-caption" id="lightbox-caption"></p>
+</div>
+
+<!-- QUOTE FORM -->
+<section class="quote" id="quote">
+  <div class="container">
+    <div class="quote-grid">
+      <div class="quote-info">
+        <p class="section-label" data-tr="TEKLİF AL" data-en="GET QUOTE">TEKLİF AL</p>
+        <h2 class="section-title" data-tr="Fiyat Teklifi İsteyin" data-en="Request a Price Quote">Fiyat Teklifi İsteyin</h2>
+        <p class="section-sub" data-tr="Formunu doldurun, en kısa sürede size dönelim." data-en="Fill in the form and we'll get back to you shortly.">Formu doldurun, en kısa sürede size dönelim.</p>
+        <div class="quote-info-item">
+          <div class="quote-info-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18C1.61 2.09 2.49 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16"/></svg>
+          </div>
+          <div class="quote-info-text">
+            <h4 data-tr="Telefon" data-en="Phone">Telefon</h4>
+            <p><a href="tel:+905373491402" style="color:rgba(255,255,255,.55)">+90 537 349 14 02</a></p>
+          </div>
+        </div>
+        <div class="quote-info-item">
+          <div class="quote-info-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </div>
+          <div class="quote-info-text">
+            <h4 data-tr="E-posta" data-en="Email">E-posta</h4>
+            <p id="contact-email-display" >htmakina.taslama@gmail.com</p>
+          </div>
+        </div>
+        <div class="quote-info-item">
+          <div class="quote-info-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="quote-info-text">
+            <h4 data-tr="Çalışma Saatleri" data-en="Working Hours">Çalışma Saatleri</h4>
+            <p id="contact-hours-display">Pzt–Cmt: 08:30–18:30 | Pazar: Kapalı</p>
+          </div>
+        </div>
+      </div>
+      <div class="form-card">
+        <form id="quote-form" onsubmit="submitQuote(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label"><span data-tr="Ad Soyad" data-en="Full Name">Ad Soyad</span> <span class="req">*</span></label>
+              <input class="form-input" type="text" id="f-name" placeholder="Ahmet Yılmaz" required/>
+            </div>
+            <div class="form-group">
+              <label class="form-label"><span data-tr="Firma Adı" data-en="Company Name">Firma Adı</span></label>
+              <input class="form-input" type="text" id="f-company" placeholder="ABC Makina Ltd."/>
+            </div>
+            <div class="form-group">
+              <label class="form-label"><span data-tr="Telefon" data-en="Phone">Telefon</span> <span class="req">*</span></label>
+              <input class="form-input" type="tel" id="f-phone" placeholder="+90 5xx xxx xx xx" required/>
+            </div>
+            <div class="form-group">
+              <label class="form-label"><span data-tr="E-posta" data-en="Email">E-posta</span></label>
+              <input class="form-input" type="email" id="f-email" placeholder="ornek@firma.com"/>
+            </div>
+            <div class="form-group full">
+              <label class="form-label"><span data-tr="Hizmet Türü" data-en="Service Type">Hizmet Türü</span></label>
+              <select class="form-select" id="f-service">
+                <option value="" data-tr="Seçiniz..." data-en="Select...">Seçiniz...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label"><span data-tr="Parça Adı" data-en="Part Name">Parça Adı</span></label>
+              <input class="form-input" type="text" id="f-part" placeholder="Mil, biyel, burç..."/>
+            </div>
+            <div class="form-group">
+              <label class="form-label"><span data-tr="Malzeme" data-en="Material">Malzeme</span></label>
+              <input class="form-input" type="text" id="f-material" placeholder="Çelik, paslanmaz, dökme..."/>
+            </div>
+            <div class="form-group">
+              <label class="form-label"><span data-tr="Adet" data-en="Quantity">Adet</span></label>
+              <input class="form-input" type="number" id="f-qty" min="1" placeholder="1"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label"><span data-tr="Tolerans" data-en="Tolerance">Tolerans</span></label>
+              <input class="form-input" type="text" id="f-tolerance" placeholder="±0.01 mm"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label"><span data-tr="Çap Min (mm)" data-en="Min Diameter (mm)">Çap Min (mm)</span></label>
+              <input class="form-input" type="number" step="0.01" id="f-dmin" placeholder="0.00"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label"><span data-tr="Çap Maks (mm)" data-en="Max Diameter (mm)">Çap Maks (mm)</span></label>
+              <input class="form-input" type="number" step="0.01" id="f-dmax" placeholder="0.00"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label"><span data-tr="Boy (mm)" data-en="Length (mm)">Boy (mm)</span></label>
+              <input class="form-input" type="number" step="0.1" id="f-length" placeholder="0.0"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label"><span data-tr="Yüzey Pürüzlülüğü" data-en="Surface Roughness">Yüzey Pürüzlülüğü</span></label>
+              <input class="form-input" type="text" id="f-roughness" placeholder="Ra 0.8, Ra 1.6..."/>
+            </div>
+            <div class="form-group full">
+              <div class="form-row">
+                <input type="checkbox" id="f-drawing"/>
+                <label for="f-drawing" data-tr="Teknik resim mevcut" data-en="Technical drawing available">Teknik resim mevcut</label>
+              </div>
+            </div>
+            <div class="form-group full">
+              <label class="form-label"><span data-tr="Açıklama / Notlar" data-en="Description / Notes">Açıklama / Notlar</span></label>
+              <textarea class="form-textarea" id="f-desc" rows="3"></textarea>
+            </div>
+          </div>
+          <button type="submit" class="form-submit" id="form-submit-btn">
+            <span data-tr="Teklif Talebi Gönder" data-en="Send Quote Request">Teklif Talebi Gönder</span>
+          </button>
+          <div class="form-msg" id="form-msg"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <p class="section-label" data-tr="İLETİŞİM" data-en="CONTACT">İLETİŞİM</p>
+    <h2 class="section-title" data-tr="Bize Ulaşın" data-en="Get in Touch">Bize Ulaşın</h2>
+    <div class="contact-grid">
+      <div class="contact-details">
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <h4 data-tr="Adres" data-en="Address">Adres</h4>
+            <p id="contact-address">İvedikosb Mah. 1459 Cad. No:7<br/>06374 Yenimahalle / Ankara</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18C1.61 2.09 2.49 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16"/></svg>
+          </div>
+          <div>
+            <h4 data-tr="Telefon" data-en="Phone">Telefon</h4>
+            <a href="tel:+905373491402">+90 537 349 14 02</a>
+          </div>
+        </div>
+        <div class="contact-item" id="email-contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </div>
+          <div>
+            <h4 data-tr="E-posta" data-en="Email">E-posta</h4>
+            <a href="#" id="contact-email-link"></a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <h4 data-tr="Çalışma Saatleri" data-en="Working Hours">Çalışma Saatleri</h4>
+            <p id="contact-hours">Pzt–Cmt: 08:30–18:30<br/>Pazar: Kapalı</p>
+          </div>
+        </div>
+      </div>
+      <div class="map-container">
+        <iframe id="map-iframe"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d762.9!2d32.7403!3d39.9865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14d34f9f4c5a1c9b%3A0x1!2z0IjQstC10LTQuNC6IE9TQg!5e0!3m2!1str!2str!4v1"
+          allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          title="HT Makina Taşlama Konum">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEGAL PAGES -->
+<div class="legal-page" id="legal-kvkk">
+  <button class="legal-close" onclick="closeLegal('kvkk')" data-tr="✕ Kapat" data-en="✕ Close">✕ Kapat</button>
+  <div class="legal-content">
+    <h1>KVKK Aydınlatma Metni</h1>
+    <p><strong>HT Makina Taşlama</strong> olarak, kişisel verilerinizin güvenliği konusuna önem veriyoruz. Bu aydınlatma metni, 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") kapsamında hazırlanmıştır.</p>
+    <h2>Veri Sorumlusu</h2>
+    <p>HT Makina Taşlama<br/>İvedikosb Mah. 1459 Cad. No:7, 06374 Yenimahalle/Ankara<br/>Vergi No: 8600137165 – İvedik Vergi Dairesi</p>
+    <h2>İşlenen Kişisel Veriler</h2>
+    <ul>
+      <li>Ad, soyad, firma unvanı</li>
+      <li>İletişim bilgileri (telefon, e-posta)</li>
+      <li>Talep ve sipariş bilgileri</li>
+    </ul>
+    <h2>İşleme Amaçları</h2>
+    <p>Kişisel verileriniz; teklif hazırlanması, sipariş takibi, müşteri hizmetleri ve yasal yükümlülüklerin yerine getirilmesi amacıyla işlenmektedir.</p>
+    <h2>Hukuki Dayanaklar</h2>
+    <p>KVKK md. 5/2-a (kanunlarda öngörülmesi), md. 5/2-c (sözleşmenin kurulması veya ifası), md. 5/2-ç (hukuki yükümlülük), md. 5/1 (açık rıza — gerektiği hallerde).</p>
+    <h2>Aktarım</h2>
+    <p>Verileriniz; hizmet sunumunda kullanılan yazılım altyapı sağlayıcılarına (Supabase Inc.) ve yasal zorunluluk halinde kamu kurumlarına aktarılabilir.</p>
+    <h2>Saklama Süresi</h2>
+    <p>Teklif ve sipariş kayıtları 5 yıl, pazarlama amaçlı veriler rıza geri alınana kadar saklanır.</p>
+    <h2>Haklarınız (KVKK md. 11)</h2>
+    <ul>
+      <li>Kişisel veri işlenip işlenmediğini öğrenme</li>
+      <li>İşlenmişse bilgi talep etme</li>
+      <li>Düzeltme, silme, yok edilme talep etme</li>
+      <li>İtiraz etme ve zararın tazminini isteme</li>
+    </ul>
+    <p>Taleplerinizi telefon veya e-posta ile iletebilirsiniz.</p>
+    <p><em>Son güncelleme: 2026</em></p>
+  </div>
+</div>
+
+<div class="legal-page" id="legal-privacy">
+  <button class="legal-close" onclick="closeLegal('privacy')" data-tr="✕ Kapat" data-en="✕ Close">✕ Kapat</button>
+  <div class="legal-content">
+    <h1>Gizlilik Politikası</h1>
+    <p>HT Makina Taşlama olarak, web sitemizi ziyaret eden kullanıcıların gizliliğini korumayı taahhüt ediyoruz.</p>
+    <h2>Toplanan Veriler</h2>
+    <p>Web sitemiz üzerinden yalnızca bilinçli olarak gönderdiğiniz veriler (teklif formu bilgileri) toplanmaktadır. Otomatik olarak toplanan veriler analitik amaçlı olup anonim tutulmaktadır.</p>
+    <h2>Çerezler</h2>
+    <p>Sitemiz; zorunlu işlevsel çerezler ve isteğe bağlı analitik çerezler kullanmaktadır. Detay için Çerez Politikamızı inceleyiniz.</p>
+    <h2>Üçüncü Taraf Hizmetler</h2>
+    <ul>
+      <li><strong>Supabase:</strong> Form verileri veritabanı (EU/US sunucuları)</li>
+      <li><strong>Google Analytics:</strong> Anonim ziyaretçi istatistikleri (opsiyonel)</li>
+      <li><strong>Google Maps:</strong> Harita embed</li>
+    </ul>
+    <h2>Veri Güvenliği</h2>
+    <p>Verileriniz SSL/TLS şifrelemesi ile iletilmekte ve güvenli sunucularda saklanmaktadır.</p>
+    <h2>İletişim</h2>
+    <p>Gizlilik konusundaki sorularınız için +90 537 349 14 02 numaralı telefondan bize ulaşabilirsiniz.</p>
+    <p><em>Son güncelleme: 2026</em></p>
+  </div>
+</div>
+
+<div class="legal-page" id="legal-cookie">
+  <button class="legal-close" onclick="closeLegal('cookie')" data-tr="✕ Kapat" data-en="✕ Close">✕ Kapat</button>
+  <div class="legal-content">
+    <h1>Çerez Politikası</h1>
+    <p>Bu politika, htmakinatasalama.com adresinde kullanılan çerezleri açıklamaktadır.</p>
+    <h2>Çerez Türleri</h2>
+    <table>
+      <tr><th>Tür</th><th>Amaç</th><th>Süre</th></tr>
+      <tr><td>Zorunlu</td><td>Site işlevselliği (oturum, dil tercihi)</td><td>Oturum</td></tr>
+      <tr><td>Analitik</td><td>Ziyaretçi istatistikleri (Google Analytics)</td><td>2 yıl</td></tr>
+      <tr><td>Haritalama</td><td>Google Maps embed</td><td>Oturum</td></tr>
+    </table>
+    <h2>Çerez Yönetimi</h2>
+    <p>Tarayıcı ayarlarınızdan çerezleri devre dışı bırakabilirsiniz. Zorunlu çerezlerin devre dışı bırakılması site işlevselliğini olumsuz etkileyebilir.</p>
+    <p><em>Son güncelleme: 2026</em></p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="nav-logo">
+          <div class="nav-logo-img" style="background:#1a1a1a;border:none;padding:0;overflow:hidden">
+            <svg viewBox="0 0 44 44" width="44" height="44" xmlns="http://www.w3.org/2000/svg">
+              <rect width="44" height="44" fill="#1a1a1a"/>
+              <g transform="translate(10,8)">
+                <path d="M12 2a1.5 1.5 0 0 0-1.5 1.5v1.2A8.5 8.5 0 0 0 7.1 6.5L6 5.9A1.5 1.5 0 0 0 3.9 6l-2 2a1.5 1.5 0 0 0 .1 2.1l.9.7A8.5 8.5 0 0 0 2.5 13H1a1.5 1.5 0 0 0 0 3h1.5a8.5 8.5 0 0 0 .5 2.2l-.9.7A1.5 1.5 0 0 0 1.9 21l2 2A1.5 1.5 0 0 0 6 23.1l1.1-.6a8.5 8.5 0 0 0 3.4 1.8v1.2A1.5 1.5 0 0 0 12 27h2.8a1.5 1.5 0 0 0 1.5-1.5v-1.2a8.5 8.5 0 0 0 3.4-1.8l1.1.6a1.5 1.5 0 0 0 2.1-.1l2-2a1.5 1.5 0 0 0-.1-2.1l-.9-.7a8.5 8.5 0 0 0 .5-2.2H26a1.5 1.5 0 0 0 0-3h-1.5a8.5 8.5 0 0 0-.5-2.2l.9-.7a1.5 1.5 0 0 0 .1-2.1l-2-2A1.5 1.5 0 0 0 20.9 5.9L19.8 6.5A8.5 8.5 0 0 0 16.5 4.7V3.5A1.5 1.5 0 0 0 15 2H12z" fill="#e02020" transform="scale(0.72) translate(0,0)"/>
+                <circle cx="13.4" cy="14.5" r="4.5" fill="#1a1a1a" transform="scale(0.72) translate(0,0)"/>
+                <line x1="6" y1="4" x2="20" y2="24" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" transform="scale(0.72) translate(0,0)"/>
+                <circle cx="4.5" cy="3" r="2" fill="#ffffff" transform="scale(0.72) translate(0,0)"/>
+              </g>
+            </svg>
+          </div>
+          <div class="nav-logo-text">
+            <span>HT Makina</span>
+            <span style="color:#e02020">TAŞLAMA</span>
+          </div>
+        </div>
+        <p style="margin-top:.75rem;font-size:.85rem;line-height:1.7;max-width:260px">İvedikosb Mah. 1459 Cad. No:7<br/>06374 Yenimahalle / Ankara<br/>Vergi No: 8600137165</p>
+        <div class="footer-social">
+          <a class="social-btn" href="#" id="footer-instagram" title="Instagram">
+            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a class="social-btn" href="#" id="footer-linkedin" title="LinkedIn">
+            <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a class="social-btn" href="#" id="footer-facebook" title="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4 data-tr="Hizmetler" data-en="Services">Hizmetler</h4>
+        <ul id="footer-services-list">
+          <li><a href="#services" data-tr="Silindirik Taşlama" data-en="Cylindrical Grinding">Silindirik Taşlama</a></li>
+          <li><a href="#services" data-tr="Delik Taşlama" data-en="Internal Grinding">Delik Taşlama</a></li>
+          <li><a href="#services" data-tr="Yüzey Taşlama" data-en="Surface Grinding">Yüzey Taşlama</a></li>
+          <li><a href="#services" data-tr="Profil Taşlama" data-en="Profile Grinding">Profil Taşlama</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-tr="Kurumsal" data-en="Corporate">Kurumsal</h4>
+        <ul>
+          <li><a href="#about" data-tr="Hakkımızda" data-en="About Us">Hakkımızda</a></li>
+          <li><a href="#gallery" data-tr="Galeri" data-en="Gallery">Galeri</a></li>
+          <li><a href="#contact" data-tr="İletişim" data-en="Contact">İletişim</a></li>
+          <li><a href="#quote" data-tr="Teklif Al" data-en="Get Quote">Teklif Al</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-tr="İletişim" data-en="Contact">İletişim</h4>
+        <ul>
+          <li><a href="tel:+905373491402">+90 537 349 14 02</a></li>
+          <li><a href="mailto:htmakina.taslama@gmail.com">htmakina.taslama@gmail.com</a></li>
+          <li><span data-tr="Pzt–Cmt 08:30–18:30" data-en="Mon–Sat 08:30–18:30">Pzt–Cmt 08:30–18:30</span></li>
+          <li><span data-tr="Pazar: Kapalı" data-en="Sunday: Closed">Pazar: Kapalı</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div style="display:flex;flex-direction:column;gap:.5rem">
+        <p>© 2026 HT Makina Taşlama. <span data-tr="Tüm hakları saklıdır." data-en="All rights reserved.">Tüm hakları saklıdır.</span></p>
+        <a id="mk-badge" href="#" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:.3rem .875rem .3rem .5rem;text-decoration:none;width:fit-content;transition:.2s" onmouseover="this.style.borderColor='rgba(224,32,32,.5)'" onmouseout="this.style.borderColor='rgba(255,255,255,.1)'">
+          <span style="background:#e02020;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:900;color:#fff;flex-shrink:0">MK</span>
+          <span style="font-size:.7rem;color:rgba(255,255,255,.45)">Powered by <strong style="color:rgba(255,255,255,.7);font-weight:700">MK Software</strong></span>
+        </a>
+      </div>
+      <div class="footer-legal">
+        <button onclick="openLegal('kvkk')" data-tr="KVKK Aydınlatma" data-en="Privacy Notice">KVKK Aydınlatma</button>
+        <button onclick="openLegal('privacy')" data-tr="Gizlilik Politikası" data-en="Privacy Policy">Gizlilik Politikası</button>
+        <button onclick="openLegal('cookie')" data-tr="Çerez Politikası" data-en="Cookie Policy">Çerez Politikası</button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP BUTTON -->
+<a class="wa-btn" id="wa-btn" href="https://wa.me/905373491402" target="_blank" rel="noopener" aria-label="WhatsApp ile iletişim">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.558 4.121 1.533 5.856L.057 23.215a.75.75 0 0 0 .923.923l5.359-1.476A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.715 9.715 0 0 1-4.998-1.382l-.358-.213-3.714 1.023 1.023-3.714-.213-.358A9.715 9.715 0 0 1 2.25 12C2.25 6.614 6.614 2.25 12 2.25S21.75 6.614 21.75 12 17.386 21.75 12 21.75z"/>
+  </svg>
+</a>
+
+<script>
+// =================== INTRO ANIMATION ===================
+(function(){
+  const intro = document.getElementById('intro');
+  // Skip if already seen in this session
+  if(sessionStorage.getItem('ht-intro-seen')){
+    intro.style.display='none'; return;
+  }
+
+  const wheel = document.getElementById('intro-wheel');
+  const workpiece = document.getElementById('intro-workpiece');
+  const grindLine = document.getElementById('grind-line');
+  const bar = document.getElementById('intro-bar');
+  const screenText = document.getElementById('screen-text');
+  const lightGreen = document.getElementById('light-green');
+  const lightAmber = document.getElementById('light-amber');
+  const lightRed = document.getElementById('light-red');
+  const sparks = [document.getElementById('spark1'),document.getElementById('spark2'),document.getElementById('spark3'),document.getElementById('spark4'),document.getElementById('spark5')];
+  const line1 = document.getElementById('intro-line1');
+  const line2 = document.getElementById('intro-line2');
+
+  // Floating background particles
+  const sparksContainer = document.getElementById('intro-sparks');
+  for(let i=0;i<30;i++){
+    const s = document.createElement('div');
+    s.style.cssText=`position:absolute;width:${Math.random()*3+1}px;height:${Math.random()*3+1}px;background:#e02020;border-radius:50%;left:${Math.random()*100}%;top:${Math.random()*100}%;opacity:0;animation:bgSpark ${2+Math.random()*3}s ${Math.random()*3}s ease-in-out infinite`;
+    sparksContainer.appendChild(s);
+  }
+  const bgStyle = document.createElement('style');
+  bgStyle.textContent='@keyframes bgSpark{0%,100%{opacity:0;transform:translateY(0)}50%{opacity:.4;transform:translateY(-20px)}}';
+  document.head.appendChild(bgStyle);
+
+  let progress = 0;
+  let sparkInterval;
+
+  function fireSparks(){
+    sparks.forEach((sp,i)=>{
+      setTimeout(()=>{
+        sp.style.setProperty('--tx', (Math.random()*40-20)+'px');
+        sp.style.setProperty('--ty', -(Math.random()*30+10)+'px');
+        sp.style.setProperty('--d', (0.2+Math.random()*0.3)+'s');
+        sp.classList.remove('active');
+        void sp.offsetWidth;
+        sp.classList.add('active');
+      }, i*60);
+    });
+  }
+
+  function runIntro(){
+    // Step 1 (0ms): Lights come on one by one
+    setTimeout(()=>{ lightRed.setAttribute('opacity','1'); screenText.textContent='BAŞLAT'; }, 300);
+    setTimeout(()=>{ lightAmber.setAttribute('opacity','1'); }, 600);
+    setTimeout(()=>{ lightGreen.setAttribute('opacity','1'); screenText.textContent='ÇALIŞIYOR'; }, 900);
+
+    // Step 2 (1s): Wheel starts spinning
+    setTimeout(()=>{ wheel.classList.add('spinning'); }, 1000);
+
+    // Step 3 (1.5s): Workpiece slides in
+    setTimeout(()=>{ workpiece.classList.add('in'); }, 1500);
+
+    // Step 4 (2s): Grind line appears + sparks start
+    setTimeout(()=>{
+      grindLine.classList.add('cut');
+      sparkInterval = setInterval(fireSparks, 350);
+      // Animate coolant drops
+      animateCoolant();
+    }, 2200);
+
+    // Step 5 (3s): Progress bar fills
+    setTimeout(()=>{
+      let p=0;
+      const pInterval = setInterval(()=>{
+        p += 2;
+        bar.style.width = p+'%';
+        if(p>=100){ clearInterval(pInterval); }
+      }, 40);
+    }, 2500);
+
+    // Step 6 (3.5s): Title lines appear
+    setTimeout(()=>{ line1.classList.add('show'); }, 3600);
+    setTimeout(()=>{ line2.classList.add('show'); }, 4000);
+
+    // Step 7 (4.5s): Screen shows done
+    setTimeout(()=>{ screenText.textContent='TAMAM'; clearInterval(sparkInterval); }, 4400);
+
+    // Step 8 (5s): Fade out and show site
+    setTimeout(endIntro, 5000);
+  }
+
+  function animateCoolant(){
+    const drops=['drop1','drop2','drop3'];
+    drops.forEach((id,i)=>{
+      const el=document.getElementById(id);
+      if(!el) return;
+      let y=105+i*3, dir=1;
+      setInterval(()=>{
+        y+=dir*1.5;
+        if(y>115||y<105) dir*=-1;
+        el.setAttribute('cy',y);
+        el.setAttribute('opacity',(Math.random()*0.6+0.2).toFixed(2));
+      },80+i*30);
+    });
+  }
+
+  function endIntro(){
+    clearInterval(sparkInterval);
+    intro.classList.add('fade-out');
+    sessionStorage.setItem('ht-intro-seen','1');
+    setTimeout(()=>{ intro.style.display='none'; }, 700);
+  }
+
+  window.skipIntro = endIntro;
+  runIntro();
+})();
+
+// =================== END INTRO ===================
+
+// CONFIG - Supabase ayarlarını buraya girin
+const SUPABASE_URL = 'https://telzqkxapmpnxoplyhpp.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_VliDo8HZsAdG498nWcYk_w_XrwPNmCu';
+
+// Dil durumu
+let currentLang = localStorage.getItem('ht-lang') || 'tr';
+
+// Supabase yardımcı
+async function sbFetch(path, options = {}) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    ...options,
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': options.prefer || 'return=minimal',
+      ...options.headers
+    }
+  });
+  if (!res.ok) throw new Error(await res.text());
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
+}
+
+// Dil
+function toggleLang() {
+  currentLang = currentLang === 'tr' ? 'en' : 'tr';
+  localStorage.setItem('ht-lang', currentLang);
+  applyLang();
+}
+function applyLang() {
+  document.documentElement.lang = currentLang;
+  const toggle = currentLang === 'tr' ? 'EN' : 'TR';
+  document.getElementById('lang-toggle').textContent = toggle;
+  document.getElementById('lang-toggle-mob').textContent = toggle;
+  document.querySelectorAll('[data-tr]').forEach(el => {
+    const val = el.getAttribute('data-' + currentLang);
+    if (val) el.textContent = val;
+  });
+  loadServices();
+  loadContent();
+}
+
+// Hizmetleri yükle
+async function loadServices() {
+  const grid = document.getElementById('services-grid');
+  const select = document.getElementById('f-service');
+  const footerList = document.getElementById('footer-services-list');
+  try {
+    const services = await sbFetch('services?is_active=eq.true&order=order_index.asc');
+    if (!services || services.length === 0) {
+      grid.innerHTML = '<p style="color:var(--gray400);grid-column:1/-1">Hizmet bulunamadı.</p>';
+      return;
+    }
+    const icons = {
+      'rotate-clockwise': `<svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>`,
+      'circle-dashed': `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="3" x2="12" y2="21"/><line x1="3" y1="12" x2="21" y2="12"/></svg>`,
+      'layout-bottombar': `<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2"/><line x1="2" y1="17" x2="22" y2="17"/></svg>`,
+      'vector-bezier': `<svg viewBox="0 0 24 24"><path d="M3 3h3v3H3zM18 3h3v3h-3zM10.5 18h3v3h-3zM3 18h3v3H3z"/><path d="M6 4.5C9 4.5 9 9 12 9s6-4.5 9-4.5"/><path d="M6 19.5c3 0 3-4.5 6-4.5"/></svg>`,
+      'tool': `<svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
+    };
+    grid.innerHTML = services.map(s => `
+      <div class="service-card">
+        <div class="service-icon">${icons[s.icon] || icons['tool']}</div>
+        <h3>${s['name_' + currentLang] || s.name_tr}</h3>
+        <p>${s['description_' + currentLang] || s.description_tr}</p>
+      </div>
+    `).join('');
+    select.innerHTML = `<option value="">${currentLang === 'tr' ? 'Seçiniz...' : 'Select...'}</option>` +
+      services.map(s => `<option value="${s.id}">${s['name_' + currentLang] || s.name_tr}</option>`).join('');
+    footerList.innerHTML = services.slice(0, 5).map(s =>
+      `<li><a href="#services">${s['name_' + currentLang] || s.name_tr}</a></li>`
+    ).join('');
+  } catch(e) {
+    grid.innerHTML = '<p style="color:var(--gray400);grid-column:1/-1">Veriler yüklenirken hata oluştu.</p>';
+    console.error(e);
+  }
+}
+
+// Site içerikleri
+async function loadContent() {
+  try {
+    const rows = await sbFetch('site_content?select=key,value_tr,value_en');
+    if (!rows) return;
+    const content = {};
+    rows.forEach(r => content[r.key] = r);
+    const get = (key) => content[key] ? (content[key]['value_' + currentLang] || content[key].value_tr || '') : '';
+    const heroTitle = get('hero_title');
+    const heroSub = get('hero_subtitle');
+    const aboutText = get('about_text');
+    const email = get('contact_email');
+    const hours = get('contact_hours');
+    const mapUrl = get('maps_embed_url');
+    const gaId = get('ga_tracking_id');
+    const waNum = get('whatsapp_number');
+    const ig = get('social_instagram');
+    const li = get('social_linkedin');
+    const fb = get('social_facebook');
+    if (heroTitle) document.getElementById('hero-title').innerHTML = heroTitle.replace(/(Güvenilir|Trusted)/g, '<span>$1</span>');
+    if (heroSub) document.getElementById('hero-subtitle').textContent = heroSub;
+    if (aboutText) document.getElementById('about-text').textContent = aboutText;
+    if (hours) {
+      document.getElementById('contact-hours-display').textContent = hours;
+      document.getElementById('contact-hours').innerHTML = hours.replace('|','<br/>');
+    }
+    if (email) {
+      document.getElementById('contact-email-display').textContent = email;
+      const emailEl = document.getElementById('contact-email-link');
+      if (emailEl) { emailEl.href = 'mailto:' + email; emailEl.textContent = email; }
+      document.getElementById('email-contact-item').style.display = 'flex';
+      document.getElementById('footer-email').textContent = email;
+    }
+    if (mapUrl) document.getElementById('map-iframe').src = mapUrl;
+    if (waNum) document.getElementById('wa-btn').href = 'https://wa.me/' + waNum;
+    if (ig) { const el = document.getElementById('footer-instagram'); if(el) el.href = ig; }
+    if (li) { const el = document.getElementById('footer-linkedin'); if(el) el.href = li; }
+    if (fb) { const el = document.getElementById('footer-facebook'); if(el) el.href = fb; }
+    if (gaId && !document.getElementById('ga-actual')) {
+      const s = document.createElement('script');
+      s.id = 'ga-actual';
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
+      s.async = true;
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date()); gtag('config', gaId);
+    }
+  } catch(e) { console.error('Content load error:', e); }
+}
+
+// Galeri
+async function loadGallery() {
+  const grid = document.getElementById('gallery-grid');
+  try {
+    const items = await sbFetch('gallery?is_active=eq.true&order=order_index.asc');
+    if (!items || items.length === 0) {
+      grid.innerHTML = '<div class="gallery-empty"><p>Henüz fotoğraf eklenmemiş.</p></div>';
+      return;
+    }
+    grid.innerHTML = items.map(item => `
+      <div class="gallery-item" onclick="openLightbox('${item.image_url}','${(item['title_' + currentLang] || item.title_tr || '')}')">
+        <img src="${item.thumb_url || item.image_url}" alt="${item['title_' + currentLang] || item.title_tr || ''}" loading="lazy"/>
+        <div class="gallery-item-overlay">
+          <span class="gallery-item-title">${item['title_' + currentLang] || item.title_tr || ''}</span>
+        </div>
+      </div>
+    `).join('');
+  } catch(e) {
+    grid.innerHTML = '<div class="gallery-empty"><p>Galeri yüklenemedi.</p></div>';
+    console.error(e);
+  }
+}
+
+// Lightbox
+function openLightbox(url, caption) {
+  document.getElementById('lightbox-img').src = url;
+  document.getElementById('lightbox-caption').textContent = caption;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if(e.key === 'Escape') { closeLightbox(); } });
+
+// Teklif formu
+async function submitQuote(e) {
+  e.preventDefault();
+  const btn = document.getElementById('form-submit-btn');
+  const msg = document.getElementById('form-msg');
+  btn.disabled = true;
+  btn.textContent = currentLang === 'tr' ? 'Gönderiliyor...' : 'Sending...';
+  msg.className = 'form-msg';
+  msg.style.display = 'none';
+  const serviceId = document.getElementById('f-service').value;
+  const serviceName = serviceId ? document.getElementById('f-service').options[document.getElementById('f-service').selectedIndex].text : '';
+  const payload = {
+    name: document.getElementById('f-name').value,
+    company: document.getElementById('f-company').value || null,
+    phone: document.getElementById('f-phone').value,
+    email: document.getElementById('f-email').value || null,
+    service_id: serviceId || null,
+    service_name: serviceName || null,
+    part_name: document.getElementById('f-part').value || null,
+    material: document.getElementById('f-material').value || null,
+    quantity: parseInt(document.getElementById('f-qty').value) || null,
+    tolerance: document.getElementById('f-tolerance').value || null,
+    diameter_min: parseFloat(document.getElementById('f-dmin').value) || null,
+    diameter_max: parseFloat(document.getElementById('f-dmax').value) || null,
+    length: parseFloat(document.getElementById('f-length').value) || null,
+    surface_roughness: document.getElementById('f-roughness').value || null,
+    has_drawing: document.getElementById('f-drawing').checked,
+    description: document.getElementById('f-desc').value || null,
+    status: 'new',
+    is_read: false
+  };
+  try {
+    await sbFetch('quotes', { method: 'POST', body: JSON.stringify(payload) });
+    await sendTelegramNotification(payload);
+    msg.textContent = currentLang === 'tr' ? '✓ Talebiniz alındı! En kısa sürede sizinle iletişime geçeceğiz.' : '✓ Your request has been received! We will contact you shortly.';
+    msg.className = 'form-msg success';
+    document.getElementById('quote-form').reset();
+  } catch(err) {
+    msg.textContent = currentLang === 'tr' ? 'Hata oluştu, lütfen telefonla arayın: +90 537 349 14 02' : 'An error occurred. Please call: +90 537 349 14 02';
+    msg.className = 'form-msg error';
+    console.error(err);
+  }
+  btn.disabled = false;
+  btn.textContent = currentLang === 'tr' ? 'Teklif Talebi Gönder' : 'Send Quote Request';
+}
+
+// Telegram bildirimi
+async function sendTelegramNotification(data) {
+  try {
+    const settings = await sbFetch('admin_settings?key=in.(telegram_bot_token,telegram_chat_id)&select=key,value');
+    if (!settings) return;
+    const cfg = {};
+    settings.forEach(s => cfg[s.key] = s.value);
+    if (!cfg.telegram_bot_token || !cfg.telegram_chat_id) return;
+    const msg = `🔔 *Yeni Teklif Talebi*\n\n` +
+      `👤 *Ad:* ${data.name}\n` +
+      (data.company ? `🏢 *Firma:* ${data.company}\n` : '') +
+      `📞 *Tel:* ${data.phone}\n` +
+      (data.email ? `📧 *E-posta:* ${data.email}\n` : '') +
+      (data.service_name ? `🔧 *Hizmet:* ${data.service_name}\n` : '') +
+      (data.part_name ? `⚙️ *Parça:* ${data.part_name}\n` : '') +
+      (data.material ? `🔩 *Malzeme:* ${data.material}\n` : '') +
+      (data.quantity ? `🔢 *Adet:* ${data.quantity}\n` : '') +
+      (data.tolerance ? `📐 *Tolerans:* ${data.tolerance}\n` : '') +
+      (data.diameter_min || data.diameter_max ? `📏 *Çap:* ${data.diameter_min||'?'} – ${data.diameter_max||'?'} mm\n` : '') +
+      (data.length ? `📏 *Boy:* ${data.length} mm\n` : '') +
+      (data.surface_roughness ? `✨ *Yüzey:* ${data.surface_roughness}\n` : '') +
+      `📋 *Teknik Resim:* ${data.has_drawing ? 'Evet' : 'Hayır'}\n` +
+      (data.description ? `\n📝 *Not:* ${data.description}` : '');
+    await fetch(`https://api.telegram.org/bot${cfg.telegram_bot_token}/sendMessage`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        chat_id: cfg.telegram_chat_id,
+        text: msg,
+        parse_mode: 'Markdown'
+      })
+    });
+  } catch(e) { console.warn('Telegram:', e); }
+}
+
+// Mobil menü
+function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
+function closeMobileMenu() { document.getElementById('mobile-menu').classList.remove('open'); }
+
+// Yasal sayfalar
+function openLegal(id) {
+  document.getElementById('legal-' + id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLegal(id) {
+  document.getElementById('legal-' + id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Çerez banner
+function acceptCookies() {
+  localStorage.setItem('ht-cookies', '1');
+  document.getElementById('cookie-banner').classList.add('hidden');
+}
+if (localStorage.getItem('ht-cookies')) document.getElementById('cookie-banner').classList.add('hidden');
+
+// PWA Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+  applyLang();
+  loadGallery();
+  // MK Software badge URL
+  const mkUrl = localStorage.getItem('ht_mk_url');
+  const badge = document.getElementById('mk-badge');
+  if (badge) badge.href = mkUrl || '#';
+  // Maintenance mode check
+  checkMaintenance();
+});
+
+async function checkMaintenance() {
+  try {
+    const rows = await sbFetch('admin_settings?key=eq.maintenance_mode&select=value');
+    if (rows && rows[0] && rows[0].value === '1') {
+      document.body.innerHTML = `
+        <div style="min-height:100vh;background:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;padding:2rem;font-family:Inter,system-ui,sans-serif">
+          <svg width="80" height="80" viewBox="0 0 80 80" style="margin-bottom:1.5rem;opacity:.6">
+            <circle cx="40" cy="40" r="36" fill="none" stroke="#e02020" stroke-width="3"/>
+            <path d="M40 20v20l12 8" stroke="#e02020" stroke-width="3" stroke-linecap="round" fill="none"/>
+          </svg>
+          <h1 style="font-size:2rem;font-weight:900;margin-bottom:.75rem">Bakım Çalışması</h1>
+          <p style="color:rgba(255,255,255,.5);font-size:1rem;max-width:400px;line-height:1.7">Sitemiz şu anda bakım çalışması nedeniyle geçici olarak hizmet dışıdır. En kısa sürede geri döneceğiz.</p>
+          <a href="tel:+905373491402" style="margin-top:2rem;background:#e02020;color:#fff;padding:.875rem 2rem;border-radius:10px;font-weight:700;text-decoration:none;font-size:.95rem">+90 537 349 14 02</a>
+          <p style="margin-top:3rem;font-size:.7rem;color:rgba(255,255,255,.2)">Powered by MK Software</p>
+        </div>`;
+    }
+  } catch(e) { /* Supabase bağlı değilse bakım modu yok say */ }
+}
+</script>
+</body>
+</html>

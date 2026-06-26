@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="HT Admin"/>
+<meta name="theme-color" content="#111111"/>
+<title>HT Makina Admin</title>
+<link rel="manifest" href="admin-manifest.json"/>
+<style>
+:root{
+  --red:#e02020;--red2:#f03030;--black:#111111;--dark:#1a1a1a;
+  --white:#fff;--bg:#f4f4f4;--border:#e2e8f0;
+  --text:#1e293b;--text2:#64748b;--text3:#94a3b8;
+  --green:#16a34a;--orange:#ea580c;--blue:#2563eb;
+  --radius:12px;--font:'Inter',system-ui,sans-serif;
+  --shadow:0 2px 16px rgba(0,0,0,.09);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh}
+input,select,textarea,button{font-family:var(--font)}
+button{cursor:pointer}
+
+/* ── LOGIN ── */
+#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--black);padding:1.5rem}
+.login-card{background:var(--white);border-radius:20px;padding:2.5rem 2rem;width:100%;max-width:360px}
+.login-logo{text-align:center;margin-bottom:2rem}
+.login-logo svg{display:block;margin:0 auto .75rem}
+.login-logo h1{font-size:1.25rem;font-weight:800;color:var(--black)}
+.login-logo p{font-size:.8rem;color:var(--text2);margin-top:.2rem}
+.login-field{margin-bottom:1rem}
+.login-field label{font-size:.8rem;font-weight:600;color:var(--text2);display:block;margin-bottom:.4rem}
+.login-field input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:.75rem 1rem;font-size:.95rem;transition:.2s}
+.login-field input:focus{outline:none;border-color:var(--red)}
+.login-btn{width:100%;background:var(--red);color:var(--white);border:none;border-radius:10px;padding:.875rem;font-size:1rem;font-weight:700;margin-top:.5rem;transition:.2s}
+.login-btn:hover{background:var(--red2)}
+.login-err{color:var(--red);font-size:.825rem;margin-top:.75rem;text-align:center;min-height:1.2em}
+.login-dev-link{display:block;text-align:center;margin-top:1.5rem;font-size:.75rem;color:var(--text3);cursor:pointer}
+.login-dev-link:hover{color:var(--text2)}
+
+/* ── APP ── */
+#app{display:none;min-height:100vh;padding-bottom:76px}
+#app.visible{display:block}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--black);color:var(--white);padding:.875rem 1.25rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.topbar-left{display:flex;align-items:center;gap:.75rem}
+.topbar-logo{width:32px;height:32px;background:#1a0000;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.topbar-info h2{font-size:.95rem;font-weight:700;color:var(--white)}
+.topbar-info p{font-size:.65rem;color:rgba(255,255,255,.4);margin-top:.05rem}
+.topbar-site-btn{background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.7);padding:.4rem .875rem;border-radius:8px;font-size:.75rem;font-weight:600;display:flex;align-items:center;gap:.35rem;text-decoration:none}
+.topbar-site-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);z-index:100;padding-bottom:env(safe-area-inset-bottom)}
+.nav-tab{display:flex;flex-direction:column;align-items:center;gap:.2rem;padding:.625rem .25rem;border:none;background:none;color:var(--text3);font-size:.6rem;font-family:var(--font);transition:.15s;position:relative}
+.nav-tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.nav-tab.active{color:var(--red)}
+.nav-tab.active svg{stroke:var(--red)}
+.unread-pill{position:absolute;top:6px;right:50%;transform:translateX(12px);background:var(--red);color:var(--white);font-size:.55rem;padding:1px 5px;border-radius:100px;font-weight:700;min-width:16px;text-align:center;display:none}
+
+/* ── PAGES ── */
+.page{display:none;padding:1.25rem;max-width:700px;margin:0 auto}
+.page.active{display:block}
+
+/* ── DASHBOARD ── */
+.dash-stats{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.25rem}
+.dash-stat{background:var(--white);border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow);text-align:center}
+.dash-stat.featured{background:var(--black)}
+.dash-stat-num{font-size:2.2rem;font-weight:900;color:var(--red)}
+.dash-stat.featured .dash-stat-num{color:var(--white)}
+.dash-stat-label{font-size:.7rem;color:var(--text2);margin-top:.2rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.dash-stat.featured .dash-stat-label{color:rgba(255,255,255,.5)}
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem}
+.section-header h3{font-size:.875rem;font-weight:700;color:var(--text)}
+.section-header a{font-size:.75rem;color:var(--red);font-weight:600}
+.card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:1rem}
+
+/* ── QUOTE ITEMS ── */
+.quote-item{padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.875rem;cursor:pointer;transition:.15s}
+.quote-item:last-child{border:none}
+.quote-item:active{background:var(--bg)}
+.quote-unread-dot{width:9px;height:9px;min-width:9px;background:var(--red);border-radius:50%}
+.quote-item-main{flex:1;min-width:0}
+.quote-item-name{font-weight:700;font-size:.9rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.quote-item-sub{font-size:.75rem;color:var(--text2);margin-top:.15rem;display:flex;align-items:center;gap:.5rem}
+.quote-item-date{font-size:.7rem;color:var(--text3);white-space:nowrap}
+.status-badge{font-size:.6rem;font-weight:700;padding:.15rem .5rem;border-radius:100px}
+.s-new{background:#fee2e2;color:#991b1b}
+.s-inprogress{background:#fef3c7;color:#92400e}
+.s-done{background:#dcfce7;color:#15803d}
+.s-cancelled{background:#f1f5f9;color:#64748b}
+.quote-arrow{color:var(--text3)}
+.quote-arrow svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ── QUOTE DETAIL SHEET ── */
+#quote-sheet{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:flex-end}
+#quote-sheet.open{display:flex}
+.sheet-inner{background:var(--white);border-radius:20px 20px 0 0;width:100%;max-height:92vh;overflow-y:auto;padding:1.5rem 1.25rem;padding-bottom:calc(1.5rem + env(safe-area-inset-bottom))}
+.sheet-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 1.25rem}
+.sheet-name{font-size:1.1rem;font-weight:800;color:var(--black)}
+.sheet-date{font-size:.75rem;color:var(--text3);margin-top:.2rem;margin-bottom:1.25rem}
+.sheet-detail{border-top:1px solid var(--border);padding-top:1rem}
+.detail-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.85rem}
+.detail-row:last-child{border:none}
+.detail-key{color:var(--text2)}
+.detail-val{font-weight:600;color:var(--text);text-align:right;max-width:55%;word-break:break-word}
+.sheet-actions{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:1.25rem}
+.sheet-btn{border:none;border-radius:10px;padding:.875rem;font-size:.875rem;font-weight:700;display:flex;align-items:center;justify-content:center;gap:.5rem}
+.sheet-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.btn-call{background:#dcfce7;color:#15803d}
+.btn-wa{background:#d1fae5;color:#065f46}
+.btn-del{background:#fee2e2;color:#991b1b;grid-column:1/-1}
+.sheet-status{margin-top:.875rem}
+.sheet-status select{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:.7rem .875rem;font-size:.875rem;font-family:var(--font);color:var(--text);background:var(--white)}
+
+/* ── GALLERY PAGE ── */
+.upload-zone{background:var(--white);border:2px dashed var(--border);border-radius:var(--radius);padding:2rem;text-align:center;cursor:pointer;transition:.2s;margin-bottom:1rem;position:relative}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--red);background:#fff5f5}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upload-zone-icon{width:48px;height:48px;background:#fee2e2;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem}
+.upload-zone-icon svg{width:24px;height:24px;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.upload-zone h4{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.25rem}
+.upload-zone p{font-size:.78rem;color:var(--text2)}
+.upload-progress{background:var(--white);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem;display:none;box-shadow:var(--shadow)}
+.upload-progress h4{font-size:.85rem;font-weight:700;margin-bottom:.75rem;color:var(--text)}
+.progress-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:.5rem}
+.progress-fill{height:100%;background:var(--red);border-radius:3px;transition:width .3s ease;width:0%}
+.progress-label{font-size:.75rem;color:var(--text2)}
+.gallery-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.gallery-thumb{position:relative;aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:var(--border)}
+.gallery-thumb img{width:100%;height:100%;object-fit:cover}
+.gallery-thumb-del{position:absolute;top:.4rem;right:.4rem;background:rgba(220,38,38,.9);border:none;color:var(--white);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;line-height:1}
+.gallery-thumb-del svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.gallery-empty{text-align:center;padding:2.5rem 1rem;color:var(--text3)}
+.gallery-empty svg{width:40px;height:40px;stroke:var(--text3);fill:none;stroke-width:1.5;margin:0 auto .75rem;display:block}
+
+/* ── SERVICES PAGE ── */
+.service-item{background:var(--white);border-radius:var(--radius);padding:1rem 1.25rem;display:flex;align-items:center;gap:1rem;box-shadow:var(--shadow);margin-bottom:.625rem}
+.service-item-name{flex:1;font-weight:700;font-size:.9rem;color:var(--text)}
+.service-item-sub{font-size:.72rem;color:var(--text2);margin-top:.1rem}
+.toggle{position:relative;width:44px;height:24px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;background:var(--border);border-radius:100px;cursor:pointer;transition:.25s}
+.toggle-slider:before{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:var(--white);top:3px;left:3px;transition:.25s;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.toggle input:checked+.toggle-slider{background:var(--green)}
+.toggle input:checked+.toggle-slider:before{transform:translateX(20px)}
+.svc-edit{background:none;border:none;color:var(--text3);padding:.25rem;display:flex;align-items:center}
+.svc-edit svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.add-svc-btn{width:100%;background:var(--black);color:var(--white);border:none;border-radius:var(--radius);padding:.875rem;font-size:.875rem;font-weight:700;display:flex;align-items:center;justify-content:center;gap:.5rem;margin-top:.5rem}
+.add-svc-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+
+/* ── BOTTOM SHEETS (service edit, etc) ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:none;align-items:flex-end}
+.overlay.open{display:flex}
+.overlay-sheet{background:var(--white);border-radius:20px 20px 0 0;width:100%;max-height:88vh;overflow-y:auto;padding:1.5rem 1.25rem;padding-bottom:calc(1.5rem + env(safe-area-inset-bottom))}
+.overlay-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 1.25rem}
+.overlay-sheet h3{font-size:1rem;font-weight:800;color:var(--black);margin-bottom:1.25rem}
+.field-label{font-size:.75rem;font-weight:700;color:var(--text2);display:block;margin-bottom:.35rem;margin-top:.875rem}
+.field-label:first-of-type{margin-top:0}
+.field-input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:.7rem .875rem;font-size:.875rem;color:var(--text)}
+.field-input:focus{outline:none;border-color:var(--red)}
+textarea.field-input{resize:vertical;min-height:70px}
+.overlay-btns{display:flex;gap:.75rem;margin-top:1.25rem}
+.ov-save{flex:1;background:var(--red);color:var(--white);border:none;border-radius:10px;padding:.75rem;font-weight:700;font-size:.875rem}
+.ov-cancel{flex:1;background:var(--bg);color:var(--text2);border:none;border-radius:10px;padding:.75rem;font-weight:600;font-size:.875rem}
+
+/* ── DEVELOPER PANEL ── */
+#dev-screen{display:none;min-height:100vh;background:var(--black);padding-bottom:2rem}
+#dev-screen.visible{display:block}
+.dev-topbar{background:#0a0a0a;padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08)}
+.dev-topbar h2{font-size:.95rem;font-weight:700;color:var(--white);display:flex;align-items:center;gap:.5rem}
+.dev-badge{background:#e02020;color:var(--white);font-size:.6rem;padding:.15rem .5rem;border-radius:4px;font-weight:700;letter-spacing:.5px}
+.dev-exit{background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.7);padding:.4rem .875rem;border-radius:8px;font-size:.75rem;font-weight:600}
+.dev-body{padding:1.25rem;max-width:700px;margin:0 auto}
+.dev-section{background:#1a1a1a;border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem;border:1px solid rgba(255,255,255,.06)}
+.dev-section-title{font-size:.75rem;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.dev-section-title svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.dev-field{margin-bottom:.875rem}
+.dev-field:last-child{margin-bottom:0}
+.dev-label{font-size:.72rem;color:rgba(255,255,255,.4);display:block;margin-bottom:.3rem;font-weight:600}
+.dev-input{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.625rem .875rem;font-size:.82rem;color:var(--white);font-family:var(--font)}
+.dev-input:focus{outline:none;border-color:var(--red)}
+.dev-hint{font-size:.68rem;color:rgba(255,255,255,.25);margin-top:.25rem;line-height:1.5}
+.dev-save{background:var(--red);color:var(--white);border:none;border-radius:8px;padding:.625rem 1.25rem;font-size:.8rem;font-weight:700;margin-top:.875rem;display:flex;align-items:center;gap:.4rem}
+.dev-save svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.dev-test-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7);border-radius:8px;padding:.5rem 1rem;font-size:.75rem;font-weight:600;margin-top:.5rem;width:100%}
+.maintenance-toggle{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0}
+.maintenance-toggle span{color:var(--white);font-size:.875rem;font-weight:600}
+.maintenance-toggle .toggle-slider{background:rgba(255,255,255,.15)}
+.dev-info-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.8rem}
+.dev-info-row:last-child{border:none}
+.dev-info-key{color:rgba(255,255,255,.4)}
+.dev-info-val{color:rgba(255,255,255,.8);font-weight:600;font-family:monospace;font-size:.75rem}
+.dev-logout{width:100%;background:rgba(220,38,38,.15);border:1px solid rgba(220,38,38,.3);color:#f87171;border-radius:8px;padding:.75rem;font-size:.875rem;font-weight:700;margin-top:1rem;display:flex;align-items:center;justify-content:center;gap:.5rem}
+.dev-logout svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--black);color:var(--white);padding:.625rem 1.25rem;border-radius:100px;font-size:.8rem;font-weight:600;opacity:0;transition:.25s;z-index:999;white-space:nowrap;pointer-events:none}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── EMPTY ── */
+.empty{text-align:center;padding:2.5rem 1rem;color:var(--text3)}
+.empty svg{width:40px;height:40px;stroke:var(--text3);fill:none;stroke-width:1.5;margin:0 auto .75rem;display:block;stroke-linecap:round;stroke-linejoin:round}
+.empty p{font-size:.85rem}
+
+@media(min-width:600px){
+  .gallery-grid{grid-template-columns:repeat(3,1fr)}
+  .dash-stats{grid-template-columns:repeat(4,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ LOGIN ══ -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <svg width="56" height="56" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+        <rect width="56" height="56" rx="14" fill="#111"/>
+        <g transform="translate(10,10)">
+          <path d="M18 3a2 2 0 0 0-2 2v1.6A11 11 0 0 0 11 9L9.5 8.2A2 2 0 0 0 6.8 8l-2.6 2.6a2 2 0 0 0 .1 2.8l1.2.9A11 11 0 0 0 5 17H3a2 2 0 0 0 0 4h2a11 11 0 0 0 .5 3l-1.2.9a2 2 0 0 0-.1 2.8L6.8 30.4a2 2 0 0 0 2.7.2L11 29.8A11 11 0 0 0 16 32.4V34a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-1.6A11 11 0 0 0 29 29.8l1.5.8a2 2 0 0 0 2.7-.2L35.8 27.7a2 2 0 0 0-.1-2.8l-1.2-.9A11 11 0 0 0 35 21h2a2 2 0 0 0 0-4h-2a11 11 0 0 0-.5-3l1.2-.9a2 2 0 0 0 .1-2.8L33.2 8a2 2 0 0 0-2.7-.2L29 8.8A11 11 0 0 0 24 6.4V5a2 2 0 0 0-2-2h-4z" fill="#e02020"/>
+          <circle cx="20" cy="19" r="6" fill="#111"/>
+          <line x1="8" y1="5" x2="28" y2="33" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="8" cy="5" r="3" fill="#fff"/>
+        </g>
+      </svg>
+      <h1>HT Makina Admin</h1>
+      <p>Yönetim Paneli</p>
+    </div>
+    <div class="login-field">
+      <label>Kullanıcı Adı</label>
+      <input type="text" id="l-user" placeholder="admin" autocomplete="username"/>
+    </div>
+    <div class="login-field">
+      <label>Şifre</label>
+      <input type="password" id="l-pass" placeholder="••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <button class="login-btn" onclick="doLogin()">Giriş Yap</button>
+    <p class="login-err" id="login-err"></p>
+    <span class="login-dev-link" onclick="showDevLogin()">⚙ Geliştirici Girişi</span>
+  </div>
+</div>
+
+<!-- ══ MAIN APP ══ -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" fill="#1a0000"/>
+          <g transform="translate(5,5)">
+            <path d="M11 2a1 1 0 0 0-1 1v.9A6 6 0 0 0 7.2 5.5L6.4 5a1 1 0 0 0-1.3.1L3.5 6.7A1 1 0 0 0 3.6 8l.7.5A6 6 0 0 0 4 10.5H3a1 1 0 0 0 0 2h1a6 6 0 0 0 .3 1.7l-.7.5a1 1 0 0 0-.1 1.4l1.6 1.6a1 1 0 0 0 1.3-.1l.8-.5A6 6 0 0 0 10 18v.9a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V18a6 6 0 0 0 2.8-1.5l.8.5a1 1 0 0 0 1.3.1l1.6-1.6a1 1 0 0 0-.1-1.4l-.7-.5A6 6 0 0 0 20 12.5h1a1 1 0 0 0 0-2h-1a6 6 0 0 0-.3-1.7l.7-.5a1 1 0 0 0 .1-1.3L18.9 5.1A1 1 0 0 0 17.6 5l-.8.5A6 6 0 0 0 14 3.9V3a1 1 0 0 0-1-1h-2z" fill="#e02020"/>
+            <circle cx="12" cy="11.5" r="3.5" fill="#1a0000"/>
+            <line x1="5" y1="3" x2="19" y2="21" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="5" cy="3" r="2" fill="#fff"/>
+          </g>
+        </svg>
+      </div>
+      <div class="topbar-info">
+        <h2 id="topbar-title">Panel</h2>
+        <p>HT Makina Taşlama</p>
+      </div>
+    </div>
+    <a href="index.html" class="topbar-site-btn" target="_blank">
+      <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      Siteye Git
+    </a>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="page active" id="page-dash">
+    <div class="dash-stats">
+      <div class="dash-stat featured">
+        <div class="dash-stat-num" id="s-new">–</div>
+        <div class="dash-stat-label">Yeni Teklif</div>
+      </div>
+      <div class="dash-stat">
+        <div class="dash-stat-num" id="s-total" style="color:var(--text)">–</div>
+        <div class="dash-stat-label">Toplam</div>
+      </div>
+      <div class="dash-stat">
+        <div class="dash-stat-num" id="s-prog" style="color:var(--orange)">–</div>
+        <div class="dash-stat-label">İşlemde</div>
+      </div>
+      <div class="dash-stat">
+        <div class="dash-stat-num" id="s-done" style="color:var(--green)">–</div>
+        <div class="dash-stat-label">Tamamlanan</div>
+      </div>
+    </div>
+    <div class="section-header">
+      <h3>Son Teklifler</h3>
+      <a onclick="switchTab('quotes')">Tümünü Gör →</a>
+    </div>
+    <div class="card" id="dash-quotes"></div>
+  </div>
+
+  <!-- Quotes -->
+  <div class="page" id="page-quotes">
+    <div class="card" id="all-quotes"></div>
+  </div>
+
+  <!-- Gallery -->
+  <div class="page" id="page-gallery">
+    <div class="upload-zone" id="upload-zone">
+      <input type="file" id="file-input" accept="image/*" multiple onchange="handleFiles(this.files)"/>
+      <div class="upload-zone-icon">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      </div>
+      <h4>Fotoğraf Ekle</h4>
+      <p>Tıkla veya fotoğrafını sürükle</p>
+    </div>
+    <div class="upload-progress" id="upload-progress">
+      <h4 id="upload-progress-label">Yükleniyor...</h4>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+      <p class="progress-label" id="progress-text">0 / 0 fotoğraf</p>
+    </div>
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </div>
+
+  <!-- Services -->
+  <div class="page" id="page-services">
+    <div id="services-list"></div>
+    <button class="add-svc-btn" onclick="openSvcSheet(null)">
+      <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Yeni Hizmet Ekle
+    </button>
+  </div>
+
+  <!-- Bottom nav -->
+  <div class="bottom-nav">
+    <button class="nav-tab active" id="tab-dash" onclick="switchTab('dash')">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      <span>Panel</span>
+      <span class="unread-pill" id="unread-pill">0</span>
+    </button>
+    <button class="nav-tab" id="tab-quotes" onclick="switchTab('quotes')">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <span>Teklifler</span>
+    </button>
+    <button class="nav-tab" id="tab-gallery" onclick="switchTab('gallery')">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      <span>Galeri</span>
+    </button>
+    <button class="nav-tab" id="tab-services" onclick="switchTab('services')">
+      <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+      <span>Hizmetler</span>
+    </button>
+  </div>
+</div>
+
+<!-- ══ QUOTE DETAIL SHEET ══ -->
+<div id="quote-sheet" onclick="if(event.target===this)closeSheet('quote-sheet')">
+  <div class="sheet-inner">
+    <div class="sheet-handle"></div>
+    <div class="sheet-name" id="qs-name"></div>
+    <div class="sheet-date" id="qs-date"></div>
+    <div class="sheet-detail" id="qs-details"></div>
+    <div class="sheet-status">
+      <select id="qs-status" onchange="updateStatus()">
+        <option value="new">🔵 Yeni</option>
+        <option value="inprogress">🟡 İşlemde</option>
+        <option value="done">🟢 Tamamlandı</option>
+        <option value="cancelled">⚫ İptal</option>
+      </select>
+    </div>
+    <div class="sheet-actions">
+      <button class="sheet-btn btn-call" onclick="callQuote()">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18C1.61 2.09 2.49 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16"/></svg>
+        Ara
+      </button>
+      <button class="sheet-btn btn-wa" onclick="waQuote()">
+        <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        WhatsApp
+      </button>
+      <button class="sheet-btn btn-del" onclick="deleteQuote()">
+        <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+        Teklifi Sil
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SERVICE EDIT SHEET ══ -->
+<div class="overlay" id="svc-overlay" onclick="if(event.target===this)closeSvcSheet()">
+  <div class="overlay-sheet">
+    <div class="overlay-handle"></div>
+    <h3 id="svc-sheet-title">Hizmet Ekle</h3>
+    <input type="hidden" id="svc-id"/>
+    <label class="field-label">Türkçe Ad *</label>
+    <input class="field-input" type="text" id="svc-tr" placeholder="Silindirik Taşlama"/>
+    <label class="field-label">İngilizce Ad *</label>
+    <input class="field-input" type="text" id="svc-en" placeholder="Cylindrical Grinding"/>
+    <label class="field-label">Açıklama (Türkçe)</label>
+    <textarea class="field-input" id="svc-desc-tr" placeholder="Kısa açıklama..."></textarea>
+    <label class="field-label">Açıklama (İngilizce)</label>
+    <textarea class="field-input" id="svc-desc-en" placeholder="Short description..."></textarea>
+    <div class="overlay-btns">
+      <button class="ov-cancel" onclick="closeSvcSheet()">İptal</button>
+      <button class="ov-save" onclick="saveSvc()">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DEVELOPER PANEL ══ -->
+<div id="dev-screen">
+  <div class="dev-topbar">
+    <h2>⚙ MK Software <span class="dev-badge">DEV</span></h2>
+    <button class="dev-exit" onclick="exitDev()">← Çıkış</button>
+  </div>
+  <div class="dev-body">
+
+    <div class="dev-section">
+      <div class="dev-section-title">
+        <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+        Supabase Veritabanı
+      </div>
+      <div class="dev-field">
+        <label class="dev-label">Project URL</label>
+        <input class="dev-input" type="url" id="dev-sb-url" placeholder="https://xxxxx.supabase.co"/>
+        <p class="dev-hint">Supabase → Settings → API → Project URL</p>
+      </div>
+      <div class="dev-field">
+        <label class="dev-label">Anon / Public Key</label>
+        <input class="dev-input" type="text" id="dev-sb-key" placeholder="eyJhbGciOiJIUzI1NiIs..."/>
+        <p class="dev-hint">Supabase → Settings → API → anon public</p>
+      </div>
+      <button class="dev-save" onclick="saveDevSb()">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        Kaydet ve Yenile
+      </button>
+    </div>
+
+    <div class="dev-section">
+      <div class="dev-section-title">
+        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Telegram Bildirimleri
+      </div>
+      <div class="dev-field">
+        <label class="dev-label">Bot Token</label>
+        <input class="dev-input" type="text" id="dev-tg-token" placeholder="7123456789:AAH_xxxxx"/>
+        <p class="dev-hint">@BotFather → /newbot → token</p>
+      </div>
+      <div class="dev-field">
+        <label class="dev-label">Chat ID</label>
+        <input class="dev-input" type="text" id="dev-tg-chatid" placeholder="-100123456789"/>
+        <p class="dev-hint">Bireysel: @userinfobot | Grup: negatif sayı</p>
+      </div>
+      <button class="dev-save" onclick="saveDevTg()">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        Kaydet
+      </button>
+      <button class="dev-test-btn" onclick="testTg()">📨 Test Mesajı Gönder</button>
+    </div>
+
+    <div class="dev-section">
+      <div class="dev-section-title">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        ImgBB Galeri API
+      </div>
+      <div class="dev-field">
+        <label class="dev-label">ImgBB API Key</label>
+        <input class="dev-input" type="text" id="dev-imgbb-key" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"/>
+        <p class="dev-hint">imgbb.com → API → API Key (ücretsiz)</p>
+      </div>
+      <button class="dev-save" onclick="saveDevImgbb()">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        Kaydet
+      </button>
+    </div>
+
+    <div class="dev-section">
+      <div class="dev-section-title">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Admin Şifresi
+      </div>
+      <div class="dev-field">
+        <label class="dev-label">Kullanıcı Adı</label>
+        <input class="dev-input" type="text" id="dev-admin-user" placeholder="admin"/>
+      </div>
+      <div class="dev-field">
+        <label class="dev-label">Yeni Şifre</label>
+        <input class="dev-input" type="password" id="dev-admin-pass" placeholder="Yeni şifre..."/>
+      </div>
+      <button class="dev-save" onclick="saveDevAdmin()">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        Kaydet
+      </button>
+    </div>
+
+    <div class="dev-section">
+      <div class="dev-section-title">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Bakım Modu
+      </div>
+      <div class="maintenance-toggle">
+        <span>Bakım Modunu Aç</span>
+        <label class="toggle">
+          <input type="checkbox" id="dev-maintenance" onchange="toggleMaintenance(this.checked)"/>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <p class="dev-hint" style="margin-top:.5rem">Açıkken ziyaretçiler "Yakında açılıyor" sayfasını görür.</p>
+    </div>
+
+    <div class="dev-section">
+      <div class="dev-section-title">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        MK Software — Site Bilgileri
+      </div>
+      <div class="dev-info-row"><span class="dev-info-key">Müşteri</span><span class="dev-info-val">HT Makina Taşlama</span></div>
+      <div class="dev-info-row"><span class="dev-info-key">Vergi No</span><span class="dev-info-val">8600137165</span></div>
+      <div class="dev-info-row"><span class="dev-info-key">İletişim</span><span class="dev-info-val">+90 537 349 14 02</span></div>
+      <div class="dev-info-row"><span class="dev-info-key">E-posta</span><span class="dev-info-val">htmakina.taslama@gmail.com</span></div>
+      <div class="dev-info-row"><span class="dev-info-key">Geliştirici</span><span class="dev-info-val">MK Software</span></div>
+      <div class="dev-info-row"><span class="dev-info-key">Versiyon</span><span class="dev-info-val">v1.0.0 — 2026</span></div>
+      <div class="dev-info-row"><span class="dev-info-key">MK Web</span><span class="dev-info-val" id="dev-mk-url">— (yakında)</span></div>
+      <div class="dev-field" style="margin-top:.875rem">
+        <label class="dev-label">MK Software Website URL</label>
+        <input class="dev-input" type="url" id="dev-mk-site" placeholder="https://mksoftware.com.tr"/>
+        <p class="dev-hint">Domain alınınca gir, footer rozeti otomatik link verir.</p>
+      </div>
+      <button class="dev-save" onclick="saveDevMkUrl()">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        Kaydet
+      </button>
+    </div>
+
+    <button class="dev-logout" onclick="exitDev()">
+      <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Developer Panelinden Çık
+    </button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+// ── CONFIG ──
+let SB_URL = localStorage.getItem('ht_sb_url') || 'https://telzqkxapmpnxoplyhpp.supabase.co';
+let SB_KEY = localStorage.getItem('ht_sb_key') || 'sb_publishable_VliDo8HZsAdG498nWcYk_w_XrwPNmCu';
+let IMGBB_KEY = localStorage.getItem('ht_imgbb_key') || '';
+const DEV_PASS = 'mksoft2026';
+
+// ── STATE ──
+let quotes = [], activeQuote = null, currentTab = 'dash';
+
+// ── SUPABASE ──
+async function sb(path, opts = {}) {
+  const r = await fetch(`${SB_URL}/rest/v1/${path}`, {
+    ...opts,
+    headers: {
+      'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': opts.prefer || 'return=minimal',
+      ...opts.headers
+    }
+  });
+  const t = await r.text();
+  if (!r.ok) throw new Error(t);
+  return t ? JSON.parse(t) : null;
+}
+
+// ── AUTH ──
+async function doLogin() {
+  const u = document.getElementById('l-user').value.trim();
+  const p = document.getElementById('l-pass').value;
+  const err = document.getElementById('login-err');
+  err.textContent = '';
+  try {
+    const rows = await sb('admin_settings?key=in.(admin_username,admin_password)&select=key,value');
+    const cfg = {}; rows.forEach(r => cfg[r.key] = r.value);
+    if (u === (cfg.admin_username || 'admin') && p === (cfg.admin_password || '123')) {
+      sessionStorage.setItem('ht_auth', '1');
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app').classList.add('visible');
+      initApp();
+    } else { err.textContent = 'Kullanıcı adı veya şifre hatalı.'; }
+  } catch(e) {
+    if (u === 'admin' && p === '123') {
+      sessionStorage.setItem('ht_auth', '1');
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app').classList.add('visible');
+      initApp();
+    } else { err.textContent = 'Bağlantı hatası veya hatalı şifre.'; }
+  }
+}
+
+function showDevLogin() {
+  const p = prompt('MK Software Geliştirici Şifresi:');
+  if (p === DEV_PASS) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('dev-screen').classList.add('visible');
+    loadDevInputs();
+  } else if (p !== null) { alert('Yanlış şifre.'); }
+}
+
+function exitDev() {
+  document.getElementById('dev-screen').classList.remove('visible');
+  document.getElementById('login-screen').style.display = 'flex';
+}
+
+if (sessionStorage.getItem('ht_auth')) {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').classList.add('visible');
+  window.addEventListener('DOMContentLoaded', initApp);
+}
+
+// ── INIT ──
+async function initApp() {
+  await loadDash();
+}
+
+// ── TABS ──
+const tabTitles = { dash:'Panel', quotes:'Teklifler', gallery:'Galeri', services:'Hizmetler' };
+function switchTab(tab) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + tab).classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('topbar-title').textContent = tabTitles[tab];
+  currentTab = tab;
+  if (tab === 'quotes') loadQuotes();
+  if (tab === 'gallery') loadGallery();
+  if (tab === 'services') loadServices();
+}
+
+// ── DASHBOARD ──
+async function loadDash() {
+  try {
+    const q = await sb('quotes?select=id,name,phone,service_name,status,is_read,created_at,email,company,part_name,material,quantity,tolerance,diameter_min,diameter_max,length,surface_roughness,has_drawing,description&order=created_at.desc');
+    quotes = q || [];
+    const newQ = quotes.filter(x => !x.is_read).length;
+    const prog = quotes.filter(x => x.status === 'inprogress').length;
+    const done = quotes.filter(x => x.status === 'done').length;
+    document.getElementById('s-new').textContent = newQ;
+    document.getElementById('s-total').textContent = quotes.length;
+    document.getElementById('s-prog').textContent = prog;
+    document.getElementById('s-done').textContent = done;
+    const pill = document.getElementById('unread-pill');
+    if (newQ > 0) { pill.style.display = 'block'; pill.textContent = newQ; } else { pill.style.display = 'none'; }
+    document.getElementById('dash-quotes').innerHTML = renderQuoteList(quotes.slice(0, 5));
+  } catch(e) { console.error(e); }
+}
+
+function renderQuoteList(list) {
+  if (!list.length) return '<div class="empty"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><p>Henüz teklif yok</p></div>';
+  const sl = { new:'s-new', inprogress:'s-inprogress', done:'s-done', cancelled:'s-cancelled' };
+  const sl2 = { new:'Yeni', inprogress:'İşlemde', done:'Tamam', cancelled:'İptal' };
+  return list.map(q => {
+    const d = new Date(q.created_at);
+    const ds = d.toLocaleDateString('tr-TR') + ' ' + d.toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+    return `<div class="quote-item" onclick="openQuote('${q.id}')">
+      ${!q.is_read ? '<div class="quote-unread-dot"></div>' : '<div style="width:9px"></div>'}
+      <div class="quote-item-main">
+        <div class="quote-item-name">${q.name}${q.company ? ' — ' + q.company : ''}</div>
+        <div class="quote-item-sub">
+          <span>${q.service_name || 'Hizmet belirtilmedi'}</span>
+          <span class="status-badge ${sl[q.status]||'s-new'}">${sl2[q.status]||'Yeni'}</span>
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div class="quote-item-date">${ds}</div>
+        <div style="font-size:.75rem;color:#64748b;margin-top:.2rem">${q.phone}</div>
+      </div>
+      <div class="quote-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>`;
+  }).join('');
+}
+
+// ── QUOTES PAGE ──
+async function loadQuotes() {
+  try {
+    if (!quotes.length) {
+      const q = await sb('quotes?order=created_at.desc');
+      quotes = q || [];
+    }
+    document.getElementById('all-quotes').innerHTML = renderQuoteList(quotes);
+  } catch(e) {}
+}
+
+// ── QUOTE DETAIL ──
+async function openQuote(id) {
+  const q = quotes.find(x => x.id === id);
+  if (!q) return;
+  activeQuote = q;
+  if (!q.is_read) {
+    try { await sb(`quotes?id=eq.${id}`, { method:'PATCH', body: JSON.stringify({is_read:true}) }); q.is_read = true; } catch(e) {}
+  }
+  const d = new Date(q.created_at);
+  document.getElementById('qs-name').textContent = q.name + (q.company ? ' — ' + q.company : '');
+  document.getElementById('qs-date').textContent = d.toLocaleDateString('tr-TR') + ' ' + d.toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('qs-status').value = q.status || 'new';
+  const fields = [
+    ['📞 Telefon', q.phone], ['📧 E-posta', q.email],
+    ['🔧 Hizmet', q.service_name], ['⚙️ Parça', q.part_name],
+    ['🔩 Malzeme', q.material], ['🔢 Adet', q.quantity],
+    ['📐 Tolerans', q.tolerance],
+    ['📏 Çap', (q.diameter_min || q.diameter_max) ? `${q.diameter_min||'?'} – ${q.diameter_max||'?'} mm` : null],
+    ['📏 Boy', q.length ? q.length + ' mm' : null],
+    ['✨ Yüzey', q.surface_roughness],
+    ['📋 Teknik Resim', q.has_drawing ? 'Evet' : 'Hayır'],
+    ['📝 Not', q.description],
+  ];
+  document.getElementById('qs-details').innerHTML = fields
+    .filter(f => f[1] !== null && f[1] !== undefined && f[1] !== '')
+    .map(f => `<div class="detail-row"><span class="detail-key">${f[0]}</span><span class="detail-val">${f[1]}</span></div>`)
+    .join('');
+  document.getElementById('quote-sheet').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSheet(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+  loadDash();
+  if (currentTab === 'quotes') document.getElementById('all-quotes').innerHTML = renderQuoteList(quotes);
+}
+
+async function updateStatus() {
+  if (!activeQuote) return;
+  const status = document.getElementById('qs-status').value;
+  try {
+    await sb(`quotes?id=eq.${activeQuote.id}`, { method:'PATCH', body: JSON.stringify({status}) });
+    activeQuote.status = status;
+    toast('Durum güncellendi ✓');
+  } catch(e) { toast('Hata!'); }
+}
+function callQuote() { if(activeQuote) window.open('tel:' + activeQuote.phone); }
+function waQuote() { if(activeQuote) window.open('https://wa.me/' + activeQuote.phone.replace(/\D/g,'')); }
+async function deleteQuote() {
+  if (!activeQuote || !confirm('Bu teklifi silmek istiyor musunuz?')) return;
+  try {
+    await sb(`quotes?id=eq.${activeQuote.id}`, { method:'DELETE' });
+    quotes = quotes.filter(x => x.id !== activeQuote.id);
+    closeSheet('quote-sheet');
+    toast('Teklif silindi');
+  } catch(e) { toast('Hata!'); }
+}
+
+// ── GALLERY ──
+async function loadGallery() {
+  const grid = document.getElementById('gallery-grid');
+  try {
+    const items = await sb('gallery?is_active=eq.true&order=order_index.asc');
+    if (!items || !items.length) {
+      grid.innerHTML = '<div class="gallery-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><p>Henüz fotoğraf yok</p></div>';
+      return;
+    }
+    grid.innerHTML = items.map(it => `
+      <div class="gallery-thumb">
+        <img src="${it.thumb_url || it.image_url}" alt="${it.title_tr||''}" loading="lazy"/>
+        <button class="gallery-thumb-del" onclick="deletePhoto('${it.id}')">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>`).join('');
+  } catch(e) { grid.innerHTML = '<p style="color:#e02020;padding:1rem">Yüklenemedi.</p>'; }
+}
+
+async function handleFiles(files) {
+  if (!files.length) return;
+  const key = IMGBB_KEY || localStorage.getItem('ht_imgbb_key');
+  if (!key) {
+    toast('⚠ ImgBB API anahtarı eksik! Geliştirici paneline danışın.');
+    return;
+  }
+  const prog = document.getElementById('upload-progress');
+  const fill = document.getElementById('progress-fill');
+  const label = document.getElementById('upload-progress-label');
+  const text = document.getElementById('progress-text');
+  prog.style.display = 'block';
+  let done = 0;
+  for (const file of files) {
+    label.textContent = `Yükleniyor: ${file.name}`;
+    text.textContent = `${done} / ${files.length} fotoğraf`;
+    fill.style.width = (done / files.length * 100) + '%';
+    try {
+      const b64 = await toBase64(file);
+      const fd = new FormData();
+      fd.append('image', b64.split(',')[1]);
+      fd.append('name', file.name.replace(/\.[^.]+$/, ''));
+      const res = await fetch(`https://api.imgbb.com/1/upload?key=${key}`, { method:'POST', body: fd });
+      const data = await res.json();
+      if (data.success) {
+        await sb('gallery', {
+          method:'POST',
+          body: JSON.stringify({
+            image_url: data.data.url,
+            thumb_url: data.data.thumb ? data.data.thumb.url : data.data.url,
+            title_tr: file.name.replace(/\.[^.]+$/, ''),
+            title_en: file.name.replace(/\.[^.]+$/, ''),
+            order_index: 99,
+            is_active: true
+          })
+        });
+        done++;
+      }
+    } catch(e) { console.error('Upload error:', e); }
+  }
+  fill.style.width = '100%';
+  label.textContent = `${done} fotoğraf yüklendi!`;
+  text.textContent = '';
+  setTimeout(() => { prog.style.display = 'none'; fill.style.width = '0%'; }, 2000);
+  loadGallery();
+  document.getElementById('file-input').value = '';
+}
+
+function toBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result);
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+
+async function deletePhoto(id) {
+  if (!confirm('Bu fotoğrafı silmek istiyor musunuz?')) return;
+  try {
+    await sb(`gallery?id=eq.${id}`, { method:'DELETE' });
+    toast('Fotoğraf silindi');
+    loadGallery();
+  } catch(e) { toast('Hata!'); }
+}
+
+// Upload zone drag
+const uz = document.getElementById('upload-zone');
+uz.addEventListener('dragover', e => { e.preventDefault(); uz.classList.add('drag'); });
+uz.addEventListener('dragleave', () => uz.classList.remove('drag'));
+uz.addEventListener('drop', e => { e.preventDefault(); uz.classList.remove('drag'); handleFiles(e.dataTransfer.files); });
+
+// ── SERVICES ──
+async function loadServices() {
+  const list = document.getElementById('services-list');
+  try {
+    const svcs = await sb('services?order=order_index.asc');
+    if (!svcs || !svcs.length) { list.innerHTML = '<p style="color:#94a3b8;padding:1rem">Hizmet bulunamadı.</p>'; return; }
+    list.innerHTML = svcs.map(s => `
+      <div class="service-item">
+        <div style="flex:1">
+          <div class="service-item-name">${s.name_tr}</div>
+          <div class="service-item-sub">${s.name_en}</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" ${s.is_active ? 'checked' : ''} onchange="toggleSvc('${s.id}',this.checked)"/>
+          <span class="toggle-slider"></span>
+        </label>
+        <button class="svc-edit" onclick='openSvcSheet(${JSON.stringify(s).replace(/'/g,"&#39;")})'>
+          <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+      </div>`).join('');
+  } catch(e) { list.innerHTML = '<p style="color:#e02020;padding:1rem">Yüklenemedi.</p>'; }
+}
+
+async function toggleSvc(id, active) {
+  try {
+    await sb(`services?id=eq.${id}`, { method:'PATCH', body: JSON.stringify({is_active:active}) });
+    toast(active ? 'Hizmet aktif ✓' : 'Hizmet pasif');
+  } catch(e) { toast('Hata!'); }
+}
+
+function openSvcSheet(s) {
+  document.getElementById('svc-sheet-title').textContent = s ? 'Hizmeti Düzenle' : 'Hizmet Ekle';
+  document.getElementById('svc-id').value = s ? s.id : '';
+  document.getElementById('svc-tr').value = s ? s.name_tr : '';
+  document.getElementById('svc-en').value = s ? s.name_en : '';
+  document.getElementById('svc-desc-tr').value = s ? (s.description_tr || '') : '';
+  document.getElementById('svc-desc-en').value = s ? (s.description_en || '') : '';
+  document.getElementById('svc-overlay').classList.add('open');
+}
+function closeSvcSheet() { document.getElementById('svc-overlay').classList.remove('open'); }
+
+async function saveSvc() {
+  const id = document.getElementById('svc-id').value;
+  const data = {
+    name_tr: document.getElementById('svc-tr').value.trim(),
+    name_en: document.getElementById('svc-en').value.trim(),
+    description_tr: document.getElementById('svc-desc-tr').value.trim(),
+    description_en: document.getElementById('svc-desc-en').value.trim(),
+    icon: 'tool', order_index: 99
+  };
+  if (!data.name_tr) { toast('Ad zorunlu!'); return; }
+  try {
+    if (id) await sb(`services?id=eq.${id}`, { method:'PATCH', body: JSON.stringify(data) });
+    else await sb('services', { method:'POST', body: JSON.stringify(data) });
+    closeSvcSheet();
+    toast('Kaydedildi ✓');
+    loadServices();
+  } catch(e) { toast('Hata!'); }
+}
+
+// ── DEVELOPER PANEL ──
+function loadDevInputs() {
+  const g = id => document.getElementById(id);
+  g('dev-sb-url').value = localStorage.getItem('ht_sb_url') || '';
+  g('dev-sb-key').value = localStorage.getItem('ht_sb_key') || '';
+  g('dev-imgbb-key').value = localStorage.getItem('ht_imgbb_key') || '';
+  g('dev-mk-site').value = localStorage.getItem('ht_mk_url') || '';
+  if (localStorage.getItem('ht_mk_url')) g('dev-mk-url').textContent = localStorage.getItem('ht_mk_url');
+}
+
+function saveDevSb() {
+  const url = document.getElementById('dev-sb-url').value.trim();
+  const key = document.getElementById('dev-sb-key').value.trim();
+  if (!url || !key) { alert('URL ve Key zorunlu'); return; }
+  localStorage.setItem('ht_sb_url', url);
+  localStorage.setItem('ht_sb_key', key);
+  alert('Kaydedildi! Sayfa yenileniyor...');
+  location.reload();
+}
+
+async function saveDevTg() {
+  const token = document.getElementById('dev-tg-token').value.trim();
+  const chatId = document.getElementById('dev-tg-chatid').value.trim();
+  try {
+    await sb('admin_settings?key=eq.telegram_bot_token', { method:'PATCH', body: JSON.stringify({value:token}) });
+    await sb('admin_settings?key=eq.telegram_chat_id', { method:'PATCH', body: JSON.stringify({value:chatId}) });
+    alert('Telegram ayarları kaydedildi ✓');
+  } catch(e) { alert('Hata: ' + e.message); }
+}
+
+async function testTg() {
+  const token = document.getElementById('dev-tg-token').value.trim();
+  const chatId = document.getElementById('dev-tg-chatid').value.trim();
+  if (!token || !chatId) { alert('Token ve Chat ID girin'); return; }
+  try {
+    const r = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ chat_id:chatId, text:'✅ MK Software — HT Makina Telegram bağlantısı başarılı!' })
+    });
+    const d = await r.json();
+    alert(d.ok ? '✅ Test mesajı gönderildi!' : '❌ Hata: ' + d.description);
+  } catch(e) { alert('Bağlantı hatası'); }
+}
+
+function saveDevImgbb() {
+  const key = document.getElementById('dev-imgbb-key').value.trim();
+  if (!key) { alert('API Key girin'); return; }
+  localStorage.setItem('ht_imgbb_key', key);
+  IMGBB_KEY = key;
+  alert('ImgBB API Key kaydedildi ✓');
+}
+
+async function saveDevAdmin() {
+  const user = document.getElementById('dev-admin-user').value.trim();
+  const pass = document.getElementById('dev-admin-pass').value;
+  if (!user) { alert('Kullanıcı adı boş olamaz'); return; }
+  try {
+    await sb('admin_settings?key=eq.admin_username', { method:'PATCH', body: JSON.stringify({value:user}) });
+    if (pass) await sb('admin_settings?key=eq.admin_password', { method:'PATCH', body: JSON.stringify({value:pass}) });
+    alert('Admin bilgileri güncellendi ✓');
+  } catch(e) { alert('Hata: ' + e.message); }
+}
+
+async function toggleMaintenance(on) {
+  try {
+    await sb('admin_settings?key=eq.maintenance_mode', { method:'PATCH', body: JSON.stringify({value: on ? '1' : '0'}) });
+    toast(on ? '🔧 Bakım modu açıldı' : '✅ Site aktif');
+  } catch(e) {}
+}
+
+function saveDevMkUrl() {
+  const url = document.getElementById('dev-mk-site').value.trim();
+  localStorage.setItem('ht_mk_url', url);
+  document.getElementById('dev-mk-url').textContent = url || '— (yakında)';
+  alert('MK Software URL kaydedildi ✓\nFooter rozeti otomatik güncellenecek.');
+}
+
+// ── TOAST ──
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── PWA ──
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
+</script>
+</body>
+</html>
