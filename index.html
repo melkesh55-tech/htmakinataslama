@@ -112,6 +112,23 @@ a{text-decoration:none;color:inherit}
 .intro-skip{position:absolute;bottom:2rem;right:2rem;background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.4);padding:.4rem 1rem;border-radius:100px;font-size:.75rem;cursor:pointer;transition:.2s;font-family:var(--font)}
 .intro-skip:hover{border-color:rgba(255,255,255,.5);color:rgba(255,255,255,.7)}
 
+
+/* LOGIN MODAL */
+#login-modal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9996;display:none;align-items:center;justify-content:center;padding:1.5rem;backdrop-filter:blur(4px)}
+#login-modal.open{display:flex}
+.lm-card{background:var(--white);border-radius:20px;padding:2rem;width:100%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.lm-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.lm-header h3{font-size:1.1rem;font-weight:800;color:#111}
+.lm-close{background:none;border:none;font-size:1.25rem;color:#94a3b8;cursor:pointer;padding:.25rem}
+.lm-field{margin-bottom:1rem}
+.lm-field label{font-size:.78rem;font-weight:700;color:#64748b;display:block;margin-bottom:.4rem}
+.lm-field input{width:100%;border:1.5px solid #e2e8f0;border-radius:10px;padding:.75rem 1rem;font-size:.95rem;font-family:var(--font);transition:.2s}
+.lm-field input:focus{outline:none;border-color:#e02020}
+.lm-btn{width:100%;background:#e02020;color:#fff;border:none;border-radius:10px;padding:.875rem;font-size:1rem;font-weight:700;cursor:pointer;transition:.2s;font-family:var(--font)}
+.lm-btn:hover{background:#f03030}
+.lm-err{color:#e02020;font-size:.8rem;text-align:center;margin-top:.75rem;min-height:1.2em}
+.lm-hint{font-size:.72rem;color:#94a3b8;text-align:center;margin-top:.75rem}
+
 /* COOKIE BANNER */
 #cookie-banner{position:fixed;bottom:0;left:0;right:0;background:#111111;color:var(--white);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;z-index:9999;font-size:.85rem}
 #cookie-banner a{color:var(--red);text-decoration:underline}
@@ -443,6 +460,10 @@ footer{background:#111111;color:rgba(255,255,255,.6);padding:3rem 1.5rem 1.5rem}
     </div>
     <div style="display:flex;align-items:center;gap:.75rem">
       <button class="lang-btn" onclick="toggleLang()" id="lang-toggle">EN</button>
+      <button onclick="openLoginModal()" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.8);padding:.35rem .875rem;border-radius:var(--radius);font-size:.8rem;cursor:pointer;font-family:var(--font);transition:.2s;display:flex;align-items:center;gap:.4rem" onmouseover="this.style.borderColor='rgba(224,32,32,.6)';this.style.color='#fff'" onmouseout="this.style.borderColor='rgba(255,255,255,.2)';this.style.color='rgba(255,255,255,.8)'">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        <span data-tr="Giriş" data-en="Login">Giriş</span>
+      </button>
       <div class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Menü">
         <span></span><span></span><span></span>
       </div>
@@ -456,7 +477,8 @@ footer{background:#111111;color:rgba(255,255,255,.6);padding:3rem 1.5rem 1.5rem}
   <a href="#about" onclick="closeMobileMenu()" data-tr="Hakkımızda" data-en="About">Hakkımızda</a>
   <a href="#gallery" onclick="closeMobileMenu()" data-tr="Galeri" data-en="Gallery">Galeri</a>
   <a href="#contact" onclick="closeMobileMenu()" data-tr="İletişim" data-en="Contact">İletişim</a>
-  <a href="#quote" onclick="closeMobileMenu()" data-tr="Teklif Al" data-en="Get Quote" style="color:var(--gold);font-weight:700">Teklif Al</a>
+  <a href="#quote" onclick="closeMobileMenu()" data-tr="Teklif Al" data-en="Get Quote" style="color:#e02020;font-weight:700">Teklif Al</a>
+  <a href="#" onclick="closeMobileMenu();openLoginModal()" data-tr="Yönetici Girişi" data-en="Admin Login" style="color:rgba(255,255,255,.5);font-size:.85rem">Yönetici Girişi</a>
 </div>
 
 <!-- HERO -->
@@ -744,6 +766,27 @@ footer{background:#111111;color:rgba(255,255,255,.6);padding:3rem 1.5rem 1.5rem}
     </div>
   </div>
 </section>
+
+<!-- LOGIN MODAL -->
+<div id="login-modal" onclick="if(event.target===this)closeLoginModal()">
+  <div class="lm-card">
+    <div class="lm-header">
+      <h3 data-tr="Yönetici Girişi" data-en="Admin Login">Yönetici Girişi</h3>
+      <button class="lm-close" onclick="closeLoginModal()">✕</button>
+    </div>
+    <div class="lm-field">
+      <label data-tr="Kullanıcı Adı" data-en="Username">Kullanıcı Adı</label>
+      <input type="text" id="lm-user" placeholder="admin" autocomplete="username" onkeydown="if(event.key==='Enter')doSiteLogin()"/>
+    </div>
+    <div class="lm-field">
+      <label data-tr="Şifre" data-en="Password">Şifre</label>
+      <input type="password" id="lm-pass" placeholder="••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doSiteLogin()"/>
+    </div>
+    <button class="lm-btn" onclick="doSiteLogin()" data-tr="Giriş Yap" data-en="Login">Giriş Yap</button>
+    <p class="lm-err" id="lm-err"></p>
+    <p class="lm-hint" data-tr="Yönetim paneline erişmek için giriş yapın." data-en="Login to access the management panel.">Yönetim paneline erişmek için giriş yapın.</p>
+  </div>
+</div>
 
 <!-- LEGAL PAGES -->
 <div class="legal-page" id="legal-kvkk">
@@ -1305,6 +1348,56 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js').catch(() => {});
   });
 }
+
+
+// LOGIN MODAL
+function openLoginModal() {
+  document.getElementById('login-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => document.getElementById('lm-user').focus(), 100);
+}
+function closeLoginModal() {
+  document.getElementById('login-modal').classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('lm-err').textContent = '';
+  document.getElementById('lm-user').value = '';
+  document.getElementById('lm-pass').value = '';
+}
+async function doSiteLogin() {
+  const user = document.getElementById('lm-user').value.trim();
+  const pass = document.getElementById('lm-pass').value;
+  const err = document.getElementById('lm-err');
+  const btn = document.querySelector('.lm-btn');
+  err.textContent = '';
+  btn.textContent = currentLang === 'tr' ? 'Kontrol ediliyor...' : 'Checking...';
+  btn.disabled = true;
+  try {
+    const rows = await sbFetch('admin_settings?key=in.(admin_username,admin_password)&select=key,value');
+    const cfg = {};
+    rows.forEach(r => cfg[r.key] = r.value);
+    if (user === (cfg.admin_username || 'admin') && pass === (cfg.admin_password || '123')) {
+      sessionStorage.setItem('ht_admin', '1');
+      btn.textContent = currentLang === 'tr' ? '✓ Yönlendiriliyor...' : '✓ Redirecting...';
+      setTimeout(() => { window.location.href = 'admin.html'; }, 600);
+    } else {
+      err.textContent = currentLang === 'tr' ? 'Kullanıcı adı veya şifre hatalı.' : 'Invalid username or password.';
+      btn.disabled = false;
+      btn.textContent = currentLang === 'tr' ? 'Giriş Yap' : 'Login';
+    }
+  } catch(e) {
+    if (user === 'admin' && pass === '123') {
+      sessionStorage.setItem('ht_admin', '1');
+      window.location.href = 'admin.html';
+    } else {
+      err.textContent = currentLang === 'tr' ? 'Bağlantı hatası, tekrar deneyin.' : 'Connection error, try again.';
+      btn.disabled = false;
+      btn.textContent = currentLang === 'tr' ? 'Giriş Yap' : 'Login';
+    }
+  }
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLoginModal();
+});
 
 // Init
 document.addEventListener('DOMContentLoaded', () => {

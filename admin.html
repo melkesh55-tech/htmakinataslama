@@ -609,6 +609,14 @@ if (sessionStorage.getItem('ht_auth')) {
   document.getElementById('app').classList.add('visible');
   window.addEventListener('DOMContentLoaded', initApp);
 }
+// If came from site login modal, auto-init
+window.addEventListener('DOMContentLoaded', () => {
+  if (sessionStorage.getItem('ht_auth')) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').classList.add('visible');
+    initApp();
+  }
+});
 
 // ── INIT ──
 async function initApp() {
