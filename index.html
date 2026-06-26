@@ -440,10 +440,9 @@ footer{background:#111111;color:rgba(255,255,255,.6);padding:3rem 1.5rem 1.5rem}
       <a href="#gallery" data-tr="Galeri" data-en="Gallery">Galeri</a>
       <a href="#contact" data-tr="İletişim" data-en="Contact">İletişim</a>
       <a href="#quote" class="nav-cta" data-tr="Teklif Al" data-en="Get Quote">Teklif Al</a>
-      <button class="lang-btn" onclick="toggleLang()" id="lang-toggle">EN</button>
     </div>
-    <div style="display:flex;align-items:center;gap:1rem">
-      <button class="lang-btn" onclick="toggleLang()" id="lang-toggle-mob">EN</button>
+    <div style="display:flex;align-items:center;gap:.75rem">
+      <button class="lang-btn" onclick="toggleLang()" id="lang-toggle">EN</button>
       <div class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Menü">
         <span></span><span></span><span></span>
       </div>
@@ -959,43 +958,43 @@ footer{background:#111111;color:rgba(255,255,255,.6);padding:3rem 1.5rem 1.5rem}
 
   function runIntro(){
     // Step 1 (0ms): Lights come on one by one
-    setTimeout(()=>{ lightRed.setAttribute('opacity','1'); screenText.textContent='BAŞLAT'; }, 300);
-    setTimeout(()=>{ lightAmber.setAttribute('opacity','1'); }, 600);
-    setTimeout(()=>{ lightGreen.setAttribute('opacity','1'); screenText.textContent='ÇALIŞIYOR'; }, 900);
+    setTimeout(()=>{ lightRed.setAttribute('opacity','1'); screenText.textContent='BAŞLAT'; }, 150);
+    setTimeout(()=>{ lightAmber.setAttribute('opacity','1'); }, 300);
+    setTimeout(()=>{ lightGreen.setAttribute('opacity','1'); screenText.textContent='ÇALIŞIYOR'; }, 500);
 
     // Step 2 (1s): Wheel starts spinning
-    setTimeout(()=>{ wheel.classList.add('spinning'); }, 1000);
+    setTimeout(()=>{ wheel.classList.add('spinning'); }, 600);
 
     // Step 3 (1.5s): Workpiece slides in
-    setTimeout(()=>{ workpiece.classList.add('in'); }, 1500);
+    setTimeout(()=>{ workpiece.classList.add('in'); }, 900);
 
     // Step 4 (2s): Grind line appears + sparks start
     setTimeout(()=>{
       grindLine.classList.add('cut');
-      sparkInterval = setInterval(fireSparks, 350);
+      sparkInterval = setInterval(fireSparks, 250);
       // Animate coolant drops
       animateCoolant();
-    }, 2200);
+    }, 1300);
 
     // Step 5 (3s): Progress bar fills
     setTimeout(()=>{
       let p=0;
       const pInterval = setInterval(()=>{
-        p += 2;
+        p += 4;
         bar.style.width = p+'%';
         if(p>=100){ clearInterval(pInterval); }
-      }, 40);
-    }, 2500);
+      }, 20);
+    }, 1500);
 
     // Step 6 (3.5s): Title lines appear
-    setTimeout(()=>{ line1.classList.add('show'); }, 3600);
-    setTimeout(()=>{ line2.classList.add('show'); }, 4000);
+    setTimeout(()=>{ line1.classList.add('show'); }, 2100);
+    setTimeout(()=>{ line2.classList.add('show'); }, 2400);
 
     // Step 7 (4.5s): Screen shows done
-    setTimeout(()=>{ screenText.textContent='TAMAM'; clearInterval(sparkInterval); }, 4400);
+    setTimeout(()=>{ screenText.textContent='TAMAM'; clearInterval(sparkInterval); }, 2700);
 
     // Step 8 (5s): Fade out and show site
-    setTimeout(endIntro, 5000);
+    setTimeout(endIntro, 3200);
   }
 
   function animateCoolant(){
