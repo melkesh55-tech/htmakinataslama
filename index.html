@@ -1058,11 +1058,17 @@ function toggleLang() {
 function applyLang() {
   document.documentElement.lang = currentLang;
   const toggle = currentLang === 'tr' ? 'EN' : 'TR';
-  document.getElementById('lang-toggle').textContent = toggle;
-  document.getElementById('lang-toggle-mob').textContent = toggle;
+  const lt = document.getElementById('lang-toggle');
+  const ltm = document.getElementById('lang-toggle-mob');
+  if (lt) lt.textContent = toggle;
+  if (ltm) ltm.textContent = toggle;
+  // Only update leaf elements (no child elements) to avoid destroying icons/spans
   document.querySelectorAll('[data-tr]').forEach(el => {
     const val = el.getAttribute('data-' + currentLang);
-    if (val) el.textContent = val;
+    if (!val) return;
+    // Skip elements that have child elements (buttons with SVG, etc)
+    if (el.children.length > 0) return;
+    el.textContent = val;
   });
   loadServices();
   loadContent();
@@ -1123,7 +1129,7 @@ async function loadContent() {
     const ig = get('social_instagram');
     const li = get('social_linkedin');
     const fb = get('social_facebook');
-    if (heroTitle) document.getElementById('hero-title').innerHTML = heroTitle.replace(/(Güvenilir|Trusted)/g, '<span>$1</span>');
+    if (heroTitle) document.getElementById('hero-title').innerHTML = heroTitle.replace(/(Güvenilir|Trusted|Reliable|Partner)/g, '<span>$1</span>');
     if (heroSub) document.getElementById('hero-subtitle').textContent = heroSub;
     if (aboutText) document.getElementById('about-text').textContent = aboutText;
     if (hours) {
