@@ -132,6 +132,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(17,17,17,.9
 .nav-cta{background:var(--red);color:var(--white)!important;padding:.5rem 1.25rem!important;font-weight:600}
 .nav-cta:hover{background:#f03030!important}
 .lang-btn{background:none;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.8);padding:.35rem .75rem;border-radius:var(--radius);font-size:.8rem;cursor:pointer;transition:var(--transition)}
+#lang-toggle-mob{display:none}
+@media(max-width:768px){#lang-toggle{display:none}#lang-toggle-mob{display:block}}
 .lang-btn:hover{border-color:var(--red);color:var(--red)}
 .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:.5rem}
 .nav-hamburger span{width:24px;height:2px;background:var(--white);border-radius:2px;transition:var(--transition)}
