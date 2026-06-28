@@ -1258,18 +1258,18 @@ async function loadContent() {
     if (heroSub) document.getElementById('hero-subtitle').textContent = heroSub;
     if (aboutText) document.getElementById('about-text').textContent = aboutText;
     if (hours) {
-      document.getElementById('contact-hours-display').textContent = hours;
-      document.getElementById('contact-hours').innerHTML = hours.replace('|','<br/>');
+      const hd = document.getElementById('contact-hours-display'); if(hd) hd.textContent = hours;
+      const hc = document.getElementById('contact-hours'); if(hc) hc.innerHTML = hours.replace('|','<br/>');
     }
     if (email) {
-      document.getElementById('contact-email-display').textContent = email;
+      const ced = document.getElementById('contact-email-display'); if(ced) ced.textContent = email;
       const emailEl = document.getElementById('contact-email-link');
       if (emailEl) { emailEl.href = 'mailto:' + email; emailEl.textContent = email; }
-      document.getElementById('email-contact-item').style.display = 'flex';
-      document.getElementById('footer-email').textContent = email;
+      const eci = document.getElementById('email-contact-item'); if(eci) eci.style.display = 'flex';
+      const fe = document.getElementById('footer-email'); if(fe) fe.textContent = email;
     }
-    if (mapUrl) document.getElementById('map-iframe').src = mapUrl;
-    if (waNum) document.getElementById('wa-btn').href = 'https://wa.me/' + waNum;
+    const mapEl = document.getElementById('map-iframe'); if(mapUrl && mapEl) mapEl.src = mapUrl;
+    const waEl = document.getElementById('wa-btn'); if(waNum && waEl) waEl.href = 'https://wa.me/' + waNum;
     if (ig) { const el = document.getElementById('footer-instagram'); if(el) el.href = ig; }
     if (li) { const el = document.getElementById('footer-linkedin'); if(el) el.href = li; }
     if (fb) { const el = document.getElementById('footer-facebook'); if(el) el.href = fb; }
