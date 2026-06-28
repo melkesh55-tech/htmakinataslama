@@ -1061,10 +1061,27 @@ footer{background:#111111;color:rgba(255,255,255,.6);padding:3rem 1.5rem 1.5rem}
 // =================== INTRO ANIMATION ===================
 (function(){
   const intro = document.getElementById('intro');
-  // Skip if already seen in this session
-  if(sessionStorage.getItem('ht-intro-seen')){
-    intro.style.display='none'; return;
+  if (!intro) return;
+
+  // Her zaman göster (session kontrolünü kaldırdık - daha güvenilir)
+  let ended = false;
+
+  function endIntro(){
+    if (ended) return;
+    ended = true;
+    intro.style.transition = 'opacity 0.6s ease';
+    intro.style.opacity = '0';
+    intro.style.pointerEvents = 'none';
+    setTimeout(() => { 
+      intro.style.display = 'none'; 
+    }, 650);
   }
+
+  // Geç butonu
+  window.skipIntro = endIntro;
+
+  // Failsafe — 5 saniyede mutlaka kapan
+  setTimeout(endIntro, 5000);
 
   const wheel = document.getElementById('intro-wheel');
   const workpiece = document.getElementById('intro-workpiece');
@@ -1074,115 +1091,63 @@ footer{background:#111111;color:rgba(255,255,255,.6);padding:3rem 1.5rem 1.5rem}
   const lightGreen = document.getElementById('light-green');
   const lightAmber = document.getElementById('light-amber');
   const lightRed = document.getElementById('light-red');
-  const sparks = [document.getElementById('spark1'),document.getElementById('spark2'),document.getElementById('spark3'),document.getElementById('spark4'),document.getElementById('spark5')];
   const line1 = document.getElementById('intro-line1');
   const line2 = document.getElementById('intro-line2');
 
-  // Floating background particles
-  const sparksContainer = document.getElementById('intro-sparks');
-  for(let i=0;i<30;i++){
-    const s = document.createElement('div');
-    s.style.cssText=`position:absolute;width:${Math.random()*3+1}px;height:${Math.random()*3+1}px;background:#e02020;border-radius:50%;left:${Math.random()*100}%;top:${Math.random()*100}%;opacity:0;animation:bgSpark ${2+Math.random()*3}s ${Math.random()*3}s ease-in-out infinite`;
-    sparksContainer.appendChild(s);
-  }
-  const bgStyle = document.createElement('style');
-  bgStyle.textContent='@keyframes bgSpark{0%,100%{opacity:0;transform:translateY(0)}50%{opacity:.4;transform:translateY(-20px)}}';
-  document.head.appendChild(bgStyle);
+  if (!wheel || !workpiece) { endIntro(); return; }
 
-  let progress = 0;
+  // Işıklar
+  setTimeout(() => { if(lightRed) lightRed.setAttribute('opacity','1'); if(screenText) screenText.textContent='BAŞLAT'; }, 150);
+  setTimeout(() => { if(lightAmber) lightAmber.setAttribute('opacity','1'); }, 300);
+  setTimeout(() => { if(lightGreen) lightGreen.setAttribute('opacity','1'); if(screenText) screenText.textContent='ÇALIŞIYOR'; }, 500);
+
+  // Çark dönsün
+  setTimeout(() => { wheel.classList.add('spinning'); }, 600);
+
+  // İş parçası gelsin
+  setTimeout(() => { workpiece.classList.add('in'); }, 900);
+
+  // Taşlama + kıvılcımlar
   let sparkInterval;
+  setTimeout(() => {
+    if(grindLine) grindLine.classList.add('cut');
+    const sparks = document.querySelectorAll('.grind-spark');
+    sparkInterval = setInterval(() => {
+      sparks.forEach((sp, i) => {
+        setTimeout(() => {
+          sp.style.setProperty('--tx', (Math.random()*40-20)+'px');
+          sp.style.setProperty('--ty', -(Math.random()*30+10)+'px');
+          sp.style.setProperty('--d', (0.2+Math.random()*0.3)+'s');
+          sp.classList.remove('active');
+          void sp.offsetWidth;
+          sp.classList.add('active');
+        }, i * 60);
+      });
+    }, 250);
+  }, 1300);
 
-  function fireSparks(){
-    sparks.forEach((sp,i)=>{
-      setTimeout(()=>{
-        sp.style.setProperty('--tx', (Math.random()*40-20)+'px');
-        sp.style.setProperty('--ty', -(Math.random()*30+10)+'px');
-        sp.style.setProperty('--d', (0.2+Math.random()*0.3)+'s');
-        sp.classList.remove('active');
-        void sp.offsetWidth;
-        sp.classList.add('active');
-      }, i*60);
-    });
-  }
+  // Progress bar
+  setTimeout(() => {
+    let p = 0;
+    const pInt = setInterval(() => {
+      p += 4;
+      if(bar) bar.style.width = Math.min(p,100) + '%';
+      if (p >= 100) clearInterval(pInt);
+    }, 20);
+  }, 1500);
 
-  function runIntro(){
-    // Step 1 (0ms): Lights come on one by one
-    setTimeout(()=>{ lightRed.setAttribute('opacity','1'); screenText.textContent='BAŞLAT'; }, 150);
-    setTimeout(()=>{ lightAmber.setAttribute('opacity','1'); }, 300);
-    setTimeout(()=>{ lightGreen.setAttribute('opacity','1'); screenText.textContent='ÇALIŞIYOR'; }, 500);
+  // Yazı
+  setTimeout(() => { if(line1) line1.classList.add('show'); }, 2100);
+  setTimeout(() => { if(line2) line2.classList.add('show'); }, 2400);
 
-    // Step 2 (1s): Wheel starts spinning
-    setTimeout(()=>{ wheel.classList.add('spinning'); }, 600);
-
-    // Step 3 (1.5s): Workpiece slides in
-    setTimeout(()=>{ workpiece.classList.add('in'); }, 900);
-
-    // Step 4 (2s): Grind line appears + sparks start
-    setTimeout(()=>{
-      grindLine.classList.add('cut');
-      sparkInterval = setInterval(fireSparks, 250);
-      // Animate coolant drops
-      animateCoolant();
-    }, 1300);
-
-    // Step 5 (3s): Progress bar fills
-    setTimeout(()=>{
-      let p=0;
-      const pInterval = setInterval(()=>{
-        p += 4;
-        bar.style.width = p+'%';
-        if(p>=100){ clearInterval(pInterval); }
-      }, 20);
-    }, 1500);
-
-    // Step 6 (3.5s): Title lines appear
-    setTimeout(()=>{ line1.classList.add('show'); }, 2100);
-    setTimeout(()=>{ line2.classList.add('show'); }, 2400);
-
-    // Step 7 (4.5s): Screen shows done
-    setTimeout(()=>{ screenText.textContent='TAMAM'; clearInterval(sparkInterval); }, 2700);
-
-    // Step 8 (5s): Fade out and show site
-    setTimeout(endIntro, 3200);
-  }
-
-  function animateCoolant(){
-    const drops=['drop1','drop2','drop3'];
-    drops.forEach((id,i)=>{
-      const el=document.getElementById(id);
-      if(!el) return;
-      let y=105+i*3, dir=1;
-      setInterval(()=>{
-        y+=dir*1.5;
-        if(y>115||y<105) dir*=-1;
-        el.setAttribute('cy',y);
-        el.setAttribute('opacity',(Math.random()*0.6+0.2).toFixed(2));
-      },80+i*30);
-    });
-  }
-
-  function endIntro(){
+  // Bitti
+  setTimeout(() => {
     clearInterval(sparkInterval);
-    intro.classList.add('fade-out');
-    sessionStorage.setItem('ht-intro-seen','1');
-    setTimeout(()=>{ 
-      intro.style.display='none';
-      intro.style.pointerEvents='none';
-    }, 700);
-  }
-  // Failsafe - eğer 6 saniyede bitmezse zorla kapat
-  setTimeout(()=>{
-    if(intro && intro.style.display !== 'none'){
-      intro.style.display='none';
-      intro.style.pointerEvents='none';
-      sessionStorage.setItem('ht-intro-seen','1');
-    }
-  }, 6000);
+    if(screenText) screenText.textContent = 'TAMAM';
+  }, 2700);
 
-  window.skipIntro = endIntro;
-  runIntro();
+  setTimeout(endIntro, 3200);
 })();
-
 // =================== END INTRO ===================
 
 // CONFIG - Supabase ayarlarını buraya girin
