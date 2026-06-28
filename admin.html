@@ -55,7 +55,7 @@ button{cursor:pointer}
 .topbar-site-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 /* ── BOTTOM NAV ── */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);z-index:100;padding-bottom:env(safe-area-inset-bottom)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(5,1fr);z-index:100;padding-bottom:env(safe-area-inset-bottom)}
 .nav-tab{display:flex;flex-direction:column;align-items:center;gap:.2rem;padding:.625rem .25rem;border:none;background:none;color:var(--text3);font-size:.6rem;font-family:var(--font);transition:.15s;position:relative}
 .nav-tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .nav-tab.active{color:var(--red)}
@@ -209,7 +209,7 @@ textarea.field-input{resize:vertical;min-height:70px}
 
 @media(min-width:600px){
   .gallery-grid{grid-template-columns:repeat(3,1fr)}
-  .dash-stats{grid-template-columns:repeat(4,1fr)}
+  .dash-stats{grid-template-columns:repeat(5,1fr)}
 }
 </style>
 </head>
@@ -330,6 +330,30 @@ textarea.field-input{resize:vertical;min-height:70px}
     </button>
   </div>
 
+  <!-- More Page -->
+  <div class="page" id="page-more">
+    <!-- References -->
+    <div class="section-header" style="margin-top:.25rem">
+      <h3>Referanslar</h3>
+      <span style="font-size:.75rem;color:var(--red);font-weight:600;cursor:pointer" onclick="openRefSheet(null)">+ Ekle</span>
+    </div>
+    <div id="refs-list" style="margin-bottom:1.25rem"></div>
+
+    <!-- Testimonials -->
+    <div class="section-header">
+      <h3>Müşteri Yorumları</h3>
+      <span style="font-size:.75rem;color:var(--red);font-weight:600;cursor:pointer" onclick="openTestSheet(null)">+ Ekle</span>
+    </div>
+    <div id="tests-list" style="margin-bottom:1.25rem"></div>
+
+    <!-- FAQ -->
+    <div class="section-header">
+      <h3>SSS (Sık Sorulan Sorular)</h3>
+      <span style="font-size:.75rem;color:var(--red);font-weight:600;cursor:pointer" onclick="openFaqSheet(null)">+ Ekle</span>
+    </div>
+    <div id="faqs-list"></div>
+  </div>
+
   <!-- Bottom nav -->
   <div class="bottom-nav">
     <button class="nav-tab active" id="tab-dash" onclick="switchTab('dash')">
@@ -348,6 +372,10 @@ textarea.field-input{resize:vertical;min-height:70px}
     <button class="nav-tab" id="tab-services" onclick="switchTab('services')">
       <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
       <span>Hizmetler</span>
+    </button>
+    <button class="nav-tab" id="tab-more" onclick="switchTab('more')">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+      <span>Daha</span>
     </button>
   </div>
 </div>
@@ -401,6 +429,67 @@ textarea.field-input{resize:vertical;min-height:70px}
     <div class="overlay-btns">
       <button class="ov-cancel" onclick="closeSvcSheet()">İptal</button>
       <button class="ov-save" onclick="saveSvc()">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- REF SHEET -->
+<div class="overlay" id="ref-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="overlay-sheet">
+    <div class="overlay-handle"></div>
+    <h3 id="ref-title">Referans Ekle</h3>
+    <input type="hidden" id="ref-id"/>
+    <label class="field-label">Firma Adı *</label>
+    <input class="field-input" type="text" id="ref-name" placeholder="ABC Makina A.Ş."/>
+    <label class="field-label">Logo URL (ImgBB)</label>
+    <input class="field-input" type="url" id="ref-logo" placeholder="https://i.ibb.co/..."/>
+    <div class="overlay-btns">
+      <button class="ov-cancel" onclick="document.getElementById('ref-overlay').classList.remove('open')">İptal</button>
+      <button class="ov-save" onclick="saveRef()">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIAL SHEET -->
+<div class="overlay" id="test-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="overlay-sheet">
+    <div class="overlay-handle"></div>
+    <h3 id="test-title">Yorum Ekle</h3>
+    <input type="hidden" id="test-id"/>
+    <label class="field-label">Ad Soyad *</label>
+    <input class="field-input" type="text" id="test-author" placeholder="Ahmet Yılmaz"/>
+    <label class="field-label">Firma</label>
+    <input class="field-input" type="text" id="test-company" placeholder="XYZ Ltd. Şti."/>
+    <label class="field-label">Yorum (Türkçe) *</label>
+    <textarea class="field-input" id="test-tr" placeholder="Harika hizmet..."></textarea>
+    <label class="field-label">Yorum (İngilizce)</label>
+    <textarea class="field-input" id="test-en" placeholder="Great service..."></textarea>
+    <label class="field-label">Puan (1-5)</label>
+    <input class="field-input" type="number" id="test-rating" min="1" max="5" value="5"/>
+    <div class="overlay-btns">
+      <button class="ov-cancel" onclick="document.getElementById('test-overlay').classList.remove('open')">İptal</button>
+      <button class="ov-save" onclick="saveTest()">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ SHEET -->
+<div class="overlay" id="faq-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="overlay-sheet">
+    <div class="overlay-handle"></div>
+    <h3 id="faq-title">Soru Ekle</h3>
+    <input type="hidden" id="faq-id"/>
+    <label class="field-label">Soru (Türkçe) *</label>
+    <input class="field-input" type="text" id="faq-q-tr" placeholder="Soru..."/>
+    <label class="field-label">Soru (İngilizce)</label>
+    <input class="field-input" type="text" id="faq-q-en" placeholder="Question..."/>
+    <label class="field-label">Cevap (Türkçe) *</label>
+    <textarea class="field-input" id="faq-a-tr" placeholder="Cevap..."></textarea>
+    <label class="field-label">Cevap (İngilizce)</label>
+    <textarea class="field-input" id="faq-a-en" placeholder="Answer..."></textarea>
+    <div class="overlay-btns">
+      <button class="ov-cancel" onclick="document.getElementById('faq-overlay').classList.remove('open')">İptal</button>
+      <button class="ov-save" onclick="saveFaq()">Kaydet</button>
     </div>
   </div>
 </div>
@@ -624,7 +713,7 @@ async function initApp() {
 }
 
 // ── TABS ──
-const tabTitles = { dash:'Panel', quotes:'Teklifler', gallery:'Galeri', services:'Hizmetler' };
+const tabTitles = { dash:'Panel', quotes:'Teklifler', gallery:'Galeri', services:'Hizmetler', more:'Diğer' };
 function switchTab(tab) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
@@ -635,6 +724,7 @@ function switchTab(tab) {
   if (tab === 'quotes') loadQuotes();
   if (tab === 'gallery') loadGallery();
   if (tab === 'services') loadServices();
+  if (tab === 'more') loadMorePage();
 }
 
 // ── DASHBOARD ──
@@ -976,6 +1066,156 @@ function saveDevMkUrl() {
   localStorage.setItem('ht_mk_url', url);
   document.getElementById('dev-mk-url').textContent = url || '— (yakında)';
   alert('MK Software URL kaydedildi ✓\nFooter rozeti otomatik güncellenecek.');
+}
+
+
+// ── MORE PAGE ──
+async function loadMorePage() {
+  loadRefs(); loadTests(); loadFaqs();
+}
+
+// REFERENCES
+async function loadRefs() {
+  const list = document.getElementById('refs-list');
+  if (!list) return;
+  try {
+    const refs = await sb('clients?order=order_index.asc');
+    if (!refs || !refs.length) { list.innerHTML = '<p style="color:#94a3b8;font-size:.85rem;padding:.5rem 0">Henüz referans yok.</p>'; return; }
+    list.innerHTML = refs.map(r => `
+      <div class="service-item" style="margin-bottom:.5rem">
+        ${r.logo_url ? `<img src="${r.logo_url}" style="width:40px;height:32px;object-fit:contain;border-radius:4px"/>` : `<div style="width:40px;height:32px;background:#f1f5f9;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:#94a3b8">LOGO</div>`}
+        <div class="service-item-name" style="flex:1">${r.name}</div>
+        <label class="toggle"><input type="checkbox" ${r.is_active?'checked':''} onchange="toggleItem('clients','${r.id}',this.checked)"/><span class="toggle-slider"></span></label>
+        <button class="svc-edit" onclick='openRefSheet(${JSON.stringify(r).replace(/'/g,"&#39;")})'><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+        <button class="svc-edit" style="color:var(--red)" onclick="delItem('clients','${r.id}','refs-list',loadRefs)"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+      </div>`).join('');
+  } catch(e) { list.innerHTML = '<p style="color:var(--red);font-size:.85rem">Yüklenemedi.</p>'; }
+}
+
+function openRefSheet(r) {
+  document.getElementById('ref-title').textContent = r ? 'Referans Düzenle' : 'Referans Ekle';
+  document.getElementById('ref-id').value = r ? r.id : '';
+  document.getElementById('ref-name').value = r ? r.name : '';
+  document.getElementById('ref-logo').value = r ? (r.logo_url||'') : '';
+  document.getElementById('ref-overlay').classList.add('open');
+}
+async function saveRef() {
+  const id = document.getElementById('ref-id').value;
+  const name = document.getElementById('ref-name').value.trim();
+  if (!name) { toast('Firma adı zorunlu!'); return; }
+  const data = { name, logo_url: document.getElementById('ref-logo').value.trim() || null, order_index: 99 };
+  try {
+    if (id) await sb(`clients?id=eq.${id}`, { method:'PATCH', body: JSON.stringify(data) });
+    else await sb('clients', { method:'POST', body: JSON.stringify(data) });
+    document.getElementById('ref-overlay').classList.remove('open');
+    toast('Kaydedildi ✓'); loadRefs();
+  } catch(e) { toast('Hata: ' + e.message); }
+}
+
+// TESTIMONIALS
+async function loadTests() {
+  const list = document.getElementById('tests-list');
+  if (!list) return;
+  try {
+    const items = await sb('testimonials?order=order_index.asc');
+    if (!items || !items.length) { list.innerHTML = '<p style="color:#94a3b8;font-size:.85rem;padding:.5rem 0">Henüz yorum yok.</p>'; return; }
+    list.innerHTML = items.map(t => `
+      <div class="service-item" style="margin-bottom:.5rem">
+        <div style="width:36px;height:36px;background:#111;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.8rem;flex-shrink:0">${t.author[0]}</div>
+        <div style="flex:1;min-width:0">
+          <div class="service-item-name">${t.author}</div>
+          <div class="service-item-sub">${t.company||''} ${'★'.repeat(t.rating||5)}</div>
+        </div>
+        <label class="toggle"><input type="checkbox" ${t.is_active?'checked':''} onchange="toggleItem('testimonials','${t.id}',this.checked)"/><span class="toggle-slider"></span></label>
+        <button class="svc-edit" onclick='openTestSheet(${JSON.stringify(t).replace(/'/g,"&#39;")})'><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+        <button class="svc-edit" style="color:var(--red)" onclick="delItem('testimonials','${t.id}','tests-list',loadTests)"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+      </div>`).join('');
+  } catch(e) { list.innerHTML = '<p style="color:var(--red);font-size:.85rem">Yüklenemedi.</p>'; }
+}
+
+function openTestSheet(t) {
+  document.getElementById('test-title').textContent = t ? 'Yorum Düzenle' : 'Yorum Ekle';
+  document.getElementById('test-id').value = t ? t.id : '';
+  document.getElementById('test-author').value = t ? t.author : '';
+  document.getElementById('test-company').value = t ? (t.company||'') : '';
+  document.getElementById('test-tr').value = t ? t.text_tr : '';
+  document.getElementById('test-en').value = t ? (t.text_en||'') : '';
+  document.getElementById('test-rating').value = t ? (t.rating||5) : 5;
+  document.getElementById('test-overlay').classList.add('open');
+}
+async function saveTest() {
+  const id = document.getElementById('test-id').value;
+  const data = {
+    author: document.getElementById('test-author').value.trim(),
+    company: document.getElementById('test-company').value.trim() || null,
+    text_tr: document.getElementById('test-tr').value.trim(),
+    text_en: document.getElementById('test-en').value.trim() || null,
+    rating: parseInt(document.getElementById('test-rating').value) || 5,
+    order_index: 99
+  };
+  if (!data.author || !data.text_tr) { toast('Ad ve yorum zorunlu!'); return; }
+  try {
+    if (id) await sb(`testimonials?id=eq.${id}`, { method:'PATCH', body: JSON.stringify(data) });
+    else await sb('testimonials', { method:'POST', body: JSON.stringify(data) });
+    document.getElementById('test-overlay').classList.remove('open');
+    toast('Kaydedildi ✓'); loadTests();
+  } catch(e) { toast('Hata: ' + e.message); }
+}
+
+// FAQS
+async function loadFaqs() {
+  const list = document.getElementById('faqs-list');
+  if (!list) return;
+  try {
+    const items = await sb('faqs?order=order_index.asc');
+    if (!items || !items.length) { list.innerHTML = '<p style="color:#94a3b8;font-size:.85rem;padding:.5rem 0">Henüz soru yok. (Varsayılan sorular sitede görünüyor)</p>'; return; }
+    list.innerHTML = items.map(f => `
+      <div class="service-item" style="margin-bottom:.5rem;align-items:flex-start">
+        <div style="flex:1;min-width:0">
+          <div class="service-item-name" style="white-space:normal">${f.q_tr}</div>
+          <div class="service-item-sub" style="white-space:normal;margin-top:.2rem">${f.a_tr.substring(0,60)}...</div>
+        </div>
+        <label class="toggle" style="margin-top:.25rem"><input type="checkbox" ${f.is_active?'checked':''} onchange="toggleItem('faqs','${f.id}',this.checked)"/><span class="toggle-slider"></span></label>
+        <button class="svc-edit" onclick='openFaqSheet(${JSON.stringify(f).replace(/'/g,"&#39;")})'><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+        <button class="svc-edit" style="color:var(--red)" onclick="delItem('faqs','${f.id}','faqs-list',loadFaqs)"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+      </div>`).join('');
+  } catch(e) { list.innerHTML = '<p style="color:var(--red);font-size:.85rem">Yüklenemedi.</p>'; }
+}
+
+function openFaqSheet(f) {
+  document.getElementById('faq-title').textContent = f ? 'Soru Düzenle' : 'Soru Ekle';
+  document.getElementById('faq-id').value = f ? f.id : '';
+  document.getElementById('faq-q-tr').value = f ? f.q_tr : '';
+  document.getElementById('faq-q-en').value = f ? (f.q_en||'') : '';
+  document.getElementById('faq-a-tr').value = f ? f.a_tr : '';
+  document.getElementById('faq-a-en').value = f ? (f.a_en||'') : '';
+  document.getElementById('faq-overlay').classList.add('open');
+}
+async function saveFaq() {
+  const id = document.getElementById('faq-id').value;
+  const data = {
+    q_tr: document.getElementById('faq-q-tr').value.trim(),
+    q_en: document.getElementById('faq-q-en').value.trim() || null,
+    a_tr: document.getElementById('faq-a-tr').value.trim(),
+    a_en: document.getElementById('faq-a-en').value.trim() || null,
+    order_index: 99
+  };
+  if (!data.q_tr || !data.a_tr) { toast('Soru ve cevap zorunlu!'); return; }
+  try {
+    if (id) await sb(`faqs?id=eq.${id}`, { method:'PATCH', body: JSON.stringify(data) });
+    else await sb('faqs', { method:'POST', body: JSON.stringify(data) });
+    document.getElementById('faq-overlay').classList.remove('open');
+    toast('Kaydedildi ✓'); loadFaqs();
+  } catch(e) { toast('Hata: ' + e.message); }
+}
+
+// Generic helpers
+async function toggleItem(table, id, active) {
+  try { await sb(`${table}?id=eq.${id}`, { method:'PATCH', body: JSON.stringify({is_active:active}) }); toast(active ? 'Aktif ✓' : 'Pasif'); } catch(e) { toast('Hata!'); }
+}
+async function delItem(table, id, listId, reloadFn) {
+  if (!confirm('Silmek istediğinize emin misiniz?')) return;
+  try { await sb(`${table}?id=eq.${id}`, { method:'DELETE' }); toast('Silindi'); reloadFn(); } catch(e) { toast('Hata!'); }
 }
 
 // ── TOAST ──
